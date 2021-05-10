@@ -6,11 +6,6 @@ import UserAction from "../../redux/actions/UserAction";
 import ApiUser from "../../api/User/ApiUser"
 import ValidationHelper from "../../utils/validation/ValidationHelper";
 
-interface LoginApiData {
-    username: string;
-    isStaff: boolean
-}
-
 export default function AdminLogin() {
     const requiredFields = [
         {
@@ -40,7 +35,7 @@ export default function AdminLogin() {
                 setIsLoading(false)
                 // data.isStaff = true
                 console.log(data)
-                dispatch(UserAction.userLoginResult(data));
+                dispatch(UserAction.userLogin(data));
                 window.location.reload();
             })
             .catch(() => {

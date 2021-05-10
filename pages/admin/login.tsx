@@ -40,7 +40,7 @@ export default function AdminLogin() {
                 setIsLoading(false)
                 data.isStaff = true
                 console.log(data)
-                dispatch(UserAction.userLoginResult(data));
+                dispatch(UserAction.userLogin(data));
                 router.push(Config.PATHNAME.ADMIN_HOME)
             })
             .catch(() => {
