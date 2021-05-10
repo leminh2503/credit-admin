@@ -1,0 +1,69 @@
+{
+  "name": "nextjs-core",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.6.2",
+    "@fortawesome/fontawesome-free": "^5.15.3",
+    "antd": "^4.15.2",
+    "autoprefixer": "^10.2.5",
+    "axios": "^0.21.1",
+    "classnames": "^2.3.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "next": "^10.0.0",
+    "next-redux-wrapper": "^6.0.2",
+    "postcss": "^8.2.14",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-moveable": "^0.27.7",
+    "react-redux": "^7.2.4",
+    "redux": "^4.1.0",
+    "redux-persist": "^6.0.0",
+    "sass": "^1.32.10",
+    "tailwindcss": "^2.1.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ],
+    "plugins": [
+      "jsx-a11y"
+    ],
+    "rules": {
+      "react-hooks/exhaustive-deps": 0,
+      "import/no-anonymous-default-export": 0,
+      "no-extend-native": 0
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts?(x)"
+        ],
+        "rules": {}
+      }
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.41",
+    "@types/react": "^17.0.3",
+    "typescript": "^4.2.4"
+  }
+}

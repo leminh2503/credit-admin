@@ -1,0 +1,5 @@
+export default {
+    MENU_OPEN: '[MENU] MENU_OPEN',
+    MENU_CLOSE: '[MENU] MENU_CLOSE',
+    MENU_TOGGLE: '[MENU] MENU_TOGGLE',
+}
