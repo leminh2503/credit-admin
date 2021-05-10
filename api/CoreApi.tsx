@@ -1,9 +1,10 @@
 import axios from 'axios';
 import {notification} from "antd";
 import _ from 'lodash';
-import ListErrorMessage from "./ErrorMessage/ListErrorMessage.js";
 import Config from '../config';
 import store, {persistor} from "../redux/store";
+import ListErrorMessage from "./ErrorMessage/ListErrorMessage";
+import {UserState} from "../types/common";
 
 function displayError(dataError) {
     try {
@@ -52,8 +53,8 @@ export default function coreApi(config, options = {}) {
 
     //Access Token
     if (_defaultOptions.withToken) {
-        const state = store.getState();
-        const token = state?.user?.token;
+        const state = store.getState() as UserState;
+        const token = state.user?.token;
         if (token) {
             _root.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         }

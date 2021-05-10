@@ -1,6 +1,5 @@
 import Config from "../config";
 
-
 // Auth routes
 const authRoutes = [
     {

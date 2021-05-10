@@ -1,5 +1,13 @@
 import _ from "lodash"
 
+declare global {
+    interface Array<T> {
+        indexOfObject(obj: any, key: string | null): number;
+
+        deepClone(): Array<T>;
+    }
+}
+
 Array.prototype.indexOfObject = function (obj, key) {
     for (const [index, item] of this.entries()) {
         if (key) {
@@ -15,6 +23,8 @@ Array.prototype.indexOfObject = function (obj, key) {
     return -1;
 };
 
-Array.prototype.cloneDeep = function () {
+Array.prototype.deepClone = function () {
     return _.cloneDeep(this);
 };
+
+export {}

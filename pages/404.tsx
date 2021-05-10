@@ -1,10 +1,10 @@
-import {Result, Button}       from "antd";
+import React from 'react';
+import {Result, Button} from "antd";
+import {useRouter} from 'next/router'
 import Config from "../config";
 
 export default function Custom404() {
-    const backHome = () => {
-        window.location.replace(`/#${Config.PATHNAME.HOME}`);
-    };
+    const router = useRouter()
 
     return (
         <Result
@@ -14,7 +14,7 @@ export default function Custom404() {
             extra={
                 <Button
                     type='primary'
-                    onClick={backHome}
+                    onClick={() => router.push(Config.PATHNAME.USER_HOME)}
                 >
                     Quay về trang chủ
                 </Button>

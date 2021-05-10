@@ -1,9 +1,6 @@
 export interface AdminLoginApiData {
-    email?: string;
-    userName?: string;
+    email: string;
+    userName: string;
+    full_name: string;
     isStaff?: boolean
-}
-
-export interface CoreApiResponse <T = any> {
-
 }

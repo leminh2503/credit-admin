@@ -14,3 +14,7 @@
 # Team
 - `@nguyenhung`
 
+## TODO
+1. Implement eslint 
+2. Create code style schemas
+3. Build a login page

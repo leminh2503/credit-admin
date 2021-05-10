@@ -1,8 +1,7 @@
 import MenuConstant from "../constants/MenuConstant";
 
 const initialState = {
-    isOpen: false,
-    isHidden: false
+    isOpen: false
 };
 
 /**

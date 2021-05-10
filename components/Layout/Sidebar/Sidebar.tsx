@@ -2,19 +2,15 @@ import React, {Fragment} from 'react';
 import {Menu, Modal} from "antd";
 import {ArrowLeftOutlined} from '@ant-design/icons';
 import classNames from "classnames";
+import {useDispatch, useSelector} from "react-redux";
+import {useRouter} from 'next/router'
 import MenuAction from "../../../redux/actions/MenuAction";
 import UserAction from "../../../redux/actions/UserAction";
 import ApiUser from "../../../api/User/ApiUser";
-import {useDispatch, useSelector} from "react-redux";
-import { useRouter } from 'next/router'
 import RouteList from "../../../routes/RouteList";
+import {MenuItemProps, SidebarMenuState} from "../../../types/common";
 
-
-/**
- *
- * @type {{compare: (null|*), $$typeof: number, type: *}}
- */
-const RenderMenu = React.memo(({userRole, router, menuClose}) => {
+const RenderMenu = React.memo(({userRole, router, menuClose}: MenuItemProps) => {
 
     React.useEffect(() => {
         setTimeout(() => {
@@ -80,7 +76,7 @@ const RenderMenu = React.memo(({userRole, router, menuClose}) => {
  *
  */
 export default function Sidebar() {
-    const isOpen = useSelector((state) => state.menu.isOpen)
+    const isOpen = useSelector((state: SidebarMenuState) => state.menu.isOpen)
     const router = useRouter()
     const dispatch = useDispatch()
     const userRole = ApiUser.getUserRole()

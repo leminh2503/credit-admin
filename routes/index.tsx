@@ -1,10 +1,10 @@
 import React from 'react';
-import ApiUser from "../api/User/ApiUser";
-import RouteList from "./RouteList";
 import LandingLayout from "../components/Layout/LandingLayout";
 import DashboardLayout from "../components/Layout/DashboardLayout";
-import Config from "../config";
 import Custom404 from "../pages/404";
+import ApiUser from "../api/User/ApiUser";
+import RouteList from "./RouteList";
+import Config from "../config";
 
 export default function Routes({Component, pageProps, router}) {
     const isRoute = (routeName) => {

@@ -1,10 +1,11 @@
 import React from 'react';
 import classNames from "classnames";
-import Config from "../../../config"
 import {useSelector} from "react-redux";
+import Config from "../../../config"
+import {SidebarMenuState} from "../../../types/common";
 
 export default function Main({children}) {
-    const isOpen = useSelector((state) => state.menu.isOpen)
+    const isOpen = useSelector((state: SidebarMenuState) => state.menu.isOpen)
 
     const {useSidebar, useNavbar} = Config.LAYOUT_CONFIG;
 

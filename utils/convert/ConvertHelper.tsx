@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 /**
  *
  * @param dataURI
@@ -26,23 +24,6 @@ function dataURItoBlob(dataURI) {
     return new Blob([ab], {type: mimeString});
 }
 
-/**
- *
- * @param str
- * @param invalid
- * @returns {string}
- */
-function moneyFormat(str = 0, invalid = "Invalid") {
-    if (['number', 'string'].includes((typeof str))) {
-        str = _.toString(str);
-        return str.split('').reverse().reduce((prev, next, index) => {
-            return ((index % 3) ? next : (next + ',')) + prev;
-        });
-    }
-    return invalid;
-}
-
 export default {
-    dataURItoBlob,
-    moneyFormat
+    dataURItoBlob
 };

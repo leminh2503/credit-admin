@@ -1,6 +1,7 @@
 import CoreApi from "../CoreApi";
-import store from "../../redux/store";
 import Config from "../../config"
+import store from "../../redux/store";
+import {UserState} from "../../types/common";
 
 const path = {
     login: "/auth/login"
@@ -17,15 +18,18 @@ function isLogin() {
 }
 
 function getUserRole() {
-    return store.getState().user?.role ?? "user";
+    const {user} = store.getState() as UserState
+    return user?.role ?? "user";
 }
 
 function getAuthToken() {
-    return store.getState().user?.token;
+    const {user} = store.getState() as UserState
+    return user?.token;
 }
 
 function logOut(router, action) {
-    const isStaff = store.getState().user?.isStaff;
+    const {user} = store.getState() as UserState
+    const isStaff = user?.isStaff;
     store.dispatch(action)
 
     if (isStaff) {

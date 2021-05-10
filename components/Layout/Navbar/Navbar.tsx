@@ -8,17 +8,18 @@ import {
     BellOutlined,
     LogoutOutlined
 } from "@ant-design/icons";
-import MenuAction from "../../../redux/actions/MenuAction";
-import ApiUser from "../../../api/User/ApiUser";
 import {useDispatch, useSelector} from "react-redux";
 import {useRouter} from 'next/router'
+import MenuAction from "../../../redux/actions/MenuAction";
+import ApiUser from "../../../api/User/ApiUser";
 import RouteList from "../../../routes/RouteList";
+import {UserState} from "../../../types/common";
 
 /**
  *
  */
 export default function Navbar() {
-    const user = useSelector((state) => state.user)
+    const user = useSelector((state: UserState) => state.user)
     const dispatch = useDispatch()
     const router = useRouter()
 
@@ -40,7 +41,7 @@ export default function Navbar() {
         return (
             <Menu>
                 <Menu.Item key="0">
-                    <Link href='/thong-tin-nhan-su/nhan-su'>
+                    <Link href='/user/home'>
                         <div>
                             <UserOutlined/>&nbsp;Thông tin
                         </div>
@@ -98,7 +99,7 @@ export default function Navbar() {
             <div className='group-user-info'>
                 <Dropdown overlay={renderDropdown()} trigger={['click']}>
                     <div className='cursor-pointer flex items-center'>
-                        <Avatar size='medium' icon={<UserOutlined/>}/>
+                        <Avatar size='default' icon={<UserOutlined/>}/>
                         <span className='ml-2 hidden md:flex'>
                             {fullName.shortName()}
                         </span>
