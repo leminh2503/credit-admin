@@ -3,7 +3,6 @@
 ## Install dependencies
 
 `npm install`
-`npm run prepare`
 
 ## Local Develop
 
