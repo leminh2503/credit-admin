@@ -1,9 +1,3 @@
-import React from 'react';
-
-export default function BottomNavigator() {
-    return (
-        <div className='bottom-navigator'>
-
-        </div>
-    );
+export default function BottomNavigator(): JSX.Element {
+  return <div className="bottom-navigator" />;
 }

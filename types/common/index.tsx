@@ -4,42 +4,44 @@ import {NextRouter} from "next/router";
  * Menu
  */
 export interface ISidebarMenu {
-    isOpen: boolean;
+  isOpen: boolean;
 }
 
 export type SidebarMenuState = {
-    menu: ISidebarMenu;
-}
+  menu: ISidebarMenu;
+};
 
 export type SidebarMenuAction = {
-    type: string;
-    menu: ISidebarMenu;
-}
+  type: string;
+  menu: ISidebarMenu;
+};
 
 /**
  * Sidebar Item
  */
-export interface MenuItemProps {
-    userRole: string;
-    router: NextRouter;
+export type MenuItemProps = {
+  userRole: string;
+  router: NextRouter;
 
-    menuClose(): void;
-}
+  menuClose(): void;
+};
 
 /**
  * User
  */
 export interface IUser {
-    email: string;
-    userName: string;
-    full_name: string;
-    token: string;
-    role: string;
-    isStaff?: boolean
+  email: string;
+  userName: string;
+  full_name: string;
+  token: string;
+  role: string;
+  isStaff?: boolean;
 }
 
 export type UserState = {
-    user: IUser
+  user: IUser;
+};
+
+export interface CommonReduxAction {
+  type: string;
 }
-
-

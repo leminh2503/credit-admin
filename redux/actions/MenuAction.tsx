@@ -1,21 +1,16 @@
 import MenuConstant from "../constants/MenuConstant";
+import {CommonReduxAction} from "../../types/common";
 
 export default {
-    menuOpen: () => {
-        return {
-            type: MenuConstant.MENU_OPEN
-        }
-    },
+  menuOpen: (): CommonReduxAction => ({
+    type: MenuConstant.MENU_OPEN,
+  }),
 
-    menuClose: () => {
-        return {
-            type: MenuConstant.MENU_CLOSE
-        }
-    },
+  menuClose: (): CommonReduxAction => ({
+    type: MenuConstant.MENU_CLOSE,
+  }),
 
-    menuToggle: () => {
-        return {
-            type: MenuConstant.MENU_TOGGLE
-        }
-    }
-}
+  menuToggle: (): CommonReduxAction => ({
+    type: MenuConstant.MENU_TOGGLE,
+  }),
+};
