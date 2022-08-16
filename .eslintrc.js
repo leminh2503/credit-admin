@@ -11,7 +11,7 @@ module.exports = {
   overrides: [
     // This configuration will apply only to TypeScript files
     {
-      files: ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      files: ["*.ts", "*.tsx"],
       parser: "@typescript-eslint/parser",
       settings: {react: {version: "detect"}},
       env: {
@@ -42,6 +42,10 @@ module.exports = {
         "jsx-a11y/click-events-have-key-events": "off",
         "jsx-a11y/anchor-is-valid": "off",
         "react/prop-types": "off",
+        "no-unused-vars": "off",
+        "react/require-default-props": "off",
+        "no-shadow": "off",
+        "no-restricted-exports": "off",
 
         // Weak warning
         "import/no-unresolved": 0,
@@ -66,13 +70,14 @@ module.exports = {
         "global-require": 0,
         "max-classes-per-file": 0,
         "newline-per-chained-call": 0,
+        "default-param-last": 0,
+        "default-case": 0,
         "max-len": [0, {code: 80, ignorePattern: true}],
 
         // Warning
         "semi": 1,
         "no-console": 1,
         "max-statements-per-line": [1, {max: 2}],
-        "no-unused-vars": [1, {vars: "all", args: "after-used"}],
         "react/jsx-filename-extension": [1, {extensions: [".ts", ".tsx"]}],
         "quotes": [
           1,

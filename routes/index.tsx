@@ -1,58 +1,43 @@
 import React from "react";
-import LandingLayout from "../components/Layout/LandingLayout";
 import DashboardLayout from "../components/Layout/DashboardLayout";
-import Custom404 from "../pages/404";
-import ApiUser from "../api/User/ApiUser";
-import RouteList from "./RouteList";
+import RouteList, {IRoute} from "./RouteList";
 import Config from "../config";
+import {AppProps} from "next/app";
 
 export default function Routes({
   Component,
   pageProps,
   router,
-}): JSX.Element | null {
-  const isRoute = (routeName: string): boolean => {
-    for (const route of RouteList[routeName]) {
+}: AppProps): JSX.Element | null {
+  const isRoute = (key: keyof IRoute): boolean => {
+    for (const route of RouteList) {
       if (router.pathname === route.path) {
-        return true;
+        return !!route[key];
       }
     }
     return false;
   };
 
-  if (isRoute("authRoutes")) {
-    if (ApiUser.isLogin()) {
-      if (["staff", "admin"].includes(ApiUser.getUserRole())) {
-        router.push(Config.PATHNAME.ADMIN_HOME);
-      } else {
-        router.push(Config.PATHNAME.USER_HOME);
-      }
-      return null;
-    }
-    return (
-      <LandingLayout>
-        <Component {...pageProps} />
-      </LandingLayout>
-    );
-  }
+  const goToLogin = (): null => {
+    router.push(Config.PATHNAME.HOME);
+    return null;
+  };
 
-  if (isRoute("publicRoutes")) {
-    return (
-      <LandingLayout>
-        <Component {...pageProps} />
-      </LandingLayout>
-    );
-  }
-  if (isRoute("privateRoutes")) {
-    if (ApiUser.isLogin()) {
-      return (
-        <DashboardLayout>
-          <Component {...pageProps} />
-        </DashboardLayout>
-      );
-    }
-    router.push(Config.PATHNAME.USER_AUTH);
+  if (typeof window === "undefined" && !isRoute("isSSR")) {
     return null;
   }
-  return <Custom404 />;
+
+  if (isRoute("isPublic")) {
+    return <Component {...pageProps} />;
+  }
+
+  if (isRoute("isAuth")) {
+    return goToLogin();
+  }
+
+  return (
+    <DashboardLayout>
+      <Component {...pageProps} />
+    </DashboardLayout>
+  );
 }

@@ -1,63 +1,40 @@
 import Config from "../config";
+import {IAccountRole} from "../types";
 
-// Auth routes
-const authRoutes = [
-  {
-    path: Config.PATHNAME.ADMIN_AUTH,
-    name: "AuthAdmin",
-  },
-  {
-    path: Config.PATHNAME.USER_AUTH,
-    name: "AuthUser",
-  },
-];
+export interface IRoute {
+  path: string;
+  name: string;
+  role?: Array<IAccountRole>;
+  icon?: string;
+  isSidebar?: boolean;
+  isPrivate?: boolean;
+  isPublic?: boolean;
+  isUpdating?: boolean;
+  isAuth?: boolean;
+  isSSR?: boolean;
+  children?: IRoute[];
+}
 
-// Public routes
-const publicRoutes = [
+const routes: IRoute[] = [
   {
-    path: "/home",
+    path: Config.PATHNAME.LOGIN,
+    name: "Auth",
+    isAuth: true,
+  },
+  // {
+  //   path: "/approve-news",
+  //   name: "sidebar.approve_new",
+  //   role: ["admin"],
+  //   icon: "usd_coin_usdc",
+  //   isPrivate: true,
+  //   isSidebar: true,
+  // },
+  {
+    path: "/",
     name: "Home",
+    icon: "Homepage",
+    isSSR: true,
   },
 ];
 
-// Private Routes
-const privateRoutes = [
-  {
-    path: "/admin/home",
-    name: "AdminHome",
-    role: ["admin"],
-  },
-  {
-    path: "/admin/staff-home",
-    name: "StaffHome",
-    role: ["staff"],
-  },
-  {
-    path: "/user/home",
-    name: "UserHome",
-    role: ["user"],
-  },
-  {
-    path: "/user/profile",
-    name: "UserProfile",
-    role: ["user"],
-  },
-  {
-    path: "/user/landing-page",
-    name: "LandingPage",
-    role: ["user"],
-    children: [
-      {
-        path: "/home",
-        name: "LandingPageHome",
-        role: ["user"],
-      },
-    ],
-  },
-];
-
-export default {
-  authRoutes,
-  publicRoutes,
-  privateRoutes,
-};
+export default routes;

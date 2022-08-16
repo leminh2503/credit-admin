@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import {Breadcrumb, Avatar, Menu, Dropdown, Modal} from "antd";
+import {Avatar, Menu, Dropdown, Modal} from "antd";
 import {
   MenuOutlined,
   UserOutlined,
@@ -9,57 +9,28 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import {useDispatch, useSelector} from "react-redux";
-import {useRouter} from "next/router";
-import MenuAction from "../../../redux/actions/MenuAction";
-import ApiUser from "../../../api/User/ApiUser";
-import RouteList from "../../../routes/RouteList";
-import {UserState} from "../../../types/common";
-import UserAction from "../../../redux/actions/UserAction";
+import {IRootState} from "../../../redux/store";
+import {logoutUser} from "../../../redux/slices/UserSlice";
+import {toggleMenu} from "../../../redux/slices/MenuSlice";
 
 /**
  *
  */
 export default function Navbar(): JSX.Element {
-  const user = useSelector((state: UserState) => state.user);
+  const user = useSelector((state: IRootState) => state.user);
   const dispatch = useDispatch();
-  const router = useRouter();
 
   const handleLogout = (): void => {
     Modal.confirm({
       title: "Đăng xuất",
       content: "Bạn có chắc chắn?",
       onOk: () => {
-        ApiUser.logOut(router, UserAction.userLogout());
+        dispatch(logoutUser());
       },
     });
   };
 
-  const toggleMenu = (): void => {
-    dispatch(MenuAction.menuToggle());
-  };
-
-  const getName = (): Array<string> => {
-    const arrayName = [];
-    const arrayPath = router.pathname.split("/");
-    if (arrayPath.length >= 2) {
-      const childFirst = RouteList.privateRoutes.find(
-        (item) => item.path === "/" + arrayPath[1]
-      );
-      if (childFirst) {
-        arrayName.push(childFirst.name);
-        const childSecond = childFirst.children?.find(
-          (item) => item.path === "/" + arrayPath[2]
-        );
-        if (childSecond) {
-          arrayName.push(childSecond.name);
-        }
-      }
-    }
-    return arrayName;
-  };
-
-  const arrayName = getName();
-  const fullName = user.full_name ?? "Không xác định";
+  const fullName = user?.user?.lastName ?? "Không xác định";
 
   /**
    *
@@ -96,11 +67,11 @@ export default function Navbar(): JSX.Element {
   return (
     <div className="navbar flex items-center justify-between">
       <div className="flex items-center">
-        <MenuOutlined onClick={toggleMenu} />
-        <Breadcrumb className="ml-3">
-          <Breadcrumb.Item>{arrayName[0]}</Breadcrumb.Item>
-          <Breadcrumb.Item>{arrayName[1]}</Breadcrumb.Item>
-        </Breadcrumb>
+        <MenuOutlined
+          onClick={(): void => {
+            dispatch(toggleMenu());
+          }}
+        />
       </div>
       <div className="group-user-info">
         <Dropdown overlay={renderDropdown()} trigger={["click"]}>

@@ -3,7 +3,7 @@
  * @param dataURI
  * @returns {Blob}
  */
-function dataURItoBlob(dataURI): Blob {
+function dataURItoBlob(dataURI: string): Blob {
   const byteString = atob(dataURI.split(",")[1]);
 
   // Separate out the mime component

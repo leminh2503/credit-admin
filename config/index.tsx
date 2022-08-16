@@ -5,14 +5,18 @@ const STORE_NAME = "state";
 const NETWORK_CONFIG = {
   HOST: process.env.NEXT_PUBLIC_APP_URL,
   API_BASE_URL: process.env.NEXT_PUBLIC_APP_URL + "/api/v1",
+  BASE_URL: process.env.NEXT_PUBLIC_WEB_URL,
+  TIMEOUT: 30000,
+  RETRY: false,
+  DISPLAY_ERROR: process.env.NEXT_PUBLIC_DISPLAY_ERROR === "true",
+  USE_TOKEN: true,
+  WITH_METADATA: false,
 };
 
 // PATHNAME
 const PATHNAME = {
-  ADMIN_HOME: "/admin/home",
-  USER_HOME: "/user/home",
-  ADMIN_AUTH: "/admin/login",
-  USER_AUTH: "/user/login",
+  HOME: "/",
+  LOGIN: "/login",
 };
 
 // LAYOUT
@@ -23,9 +27,15 @@ const LAYOUT_CONFIG = {
   useBottomNavigator: true,
 };
 
+// LANGUAGE
+const LANGUAGE = {
+  DEFAULT: "en",
+};
+
 export default {
   STORE_NAME,
   NETWORK_CONFIG,
   PATHNAME,
   LAYOUT_CONFIG,
+  LANGUAGE,
 };

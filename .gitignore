@@ -17,6 +17,8 @@
 
 # misc
 .DS_Store
+*.pem
+/tsconfig.tsbuildinfo
 
 # debug
 npm-debug.log*
@@ -27,3 +29,12 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+
+# env files
+.env
+.env.development
+.env.production
+
+# lock files
+yarn.lock
+package-lock.json

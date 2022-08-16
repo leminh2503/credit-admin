@@ -15,7 +15,7 @@ export default function Custom404(): JSX.Element {
         <Button
           type="primary"
           onClick={(): void => {
-            router.push(Config.PATHNAME.USER_HOME);
+            router.push(Config.PATHNAME.HOME);
           }}
         >
           Quay về trang chủ
