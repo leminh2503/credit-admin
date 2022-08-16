@@ -1,4 +1,3 @@
-import Config from "../config";
 import {IAccountRole} from "../types";
 
 export interface IRoute {
@@ -16,11 +15,11 @@ export interface IRoute {
 }
 
 const routes: IRoute[] = [
-  {
-    path: Config.PATHNAME.LOGIN,
-    name: "Auth",
-    isAuth: true,
-  },
+  // {
+  //   path: Config.PATHNAME.LOGIN,
+  //   name: "Auth",
+  //   isAuth: true,
+  // },
   // {
   //   path: "/approve-news",
   //   name: "sidebar.approve_new",
@@ -34,6 +33,7 @@ const routes: IRoute[] = [
     name: "Home",
     icon: "Homepage",
     isSSR: true,
+    isSidebar: true,
   },
 ];
 

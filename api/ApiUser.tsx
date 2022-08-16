@@ -1,17 +1,22 @@
 import {fetcher} from "./Fetcher";
 import store from "../redux/store";
-import {IAccountInfo, IAccountRole} from "../types";
+import {IAccountRole} from "../types";
 
-interface ILoginBody {
-  username: string;
+export interface ILoginBody {
+  email: string;
   password: string;
+}
+export interface ILoginResponse {
+  accessToken: string;
+  refreshToken: string;
+  role?: number | string;
 }
 
 const path = {
   login: "/auth/login",
 };
 
-function login(body: ILoginBody): Promise<IAccountInfo> {
+function login(body: ILoginBody): Promise<ILoginResponse> {
   return fetcher(
     {url: path.login, method: "post", data: body},
     {displayError: true}
