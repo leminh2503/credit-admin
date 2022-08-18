@@ -3,29 +3,26 @@ import {Menu, Modal} from "antd";
 import Image from "next/image";
 import {ArrowLeftOutlined} from "@ant-design/icons";
 import classNames from "classnames";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {useRouter} from "next/router";
 import ApiUser from "../../../api/ApiUser";
 import RouteList from "../../../routes/RouteList";
-import {IRootState} from "../../../redux/store";
-import {logoutUser} from "../../../redux/slices/UserSlice";
-import {closeMenu, toggleMenu} from "../../../redux/slices/MenuSlice";
-import {IAccountRole} from "../../../types";
+import {logoutUser} from "@app/redux/slices/UserSlice";
+import {IAccountRole} from "@app/types";
 
 const RenderMenu = React.memo(() => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const userRole = ApiUser.getUserRole();
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      dispatch(closeMenu());
-    }, 50);
-    const ele = document.querySelector(".sidebar .ant-menu-item-selected");
-    if (ele) {
-      ele.scrollIntoView({block: "center", inline: "nearest"});
-    }
-  }, [router]);
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     dispatch(closeMenu());
+  //   }, 50);
+  //   const ele = document.querySelector(".sidebar .ant-menu-item-selected");
+  //   if (ele) {
+  //     ele.scrollIntoView({block: "center", inline: "nearest"});
+  //   }
+  // }, [router]);
 
   return (
     <Menu
@@ -35,9 +32,9 @@ const RenderMenu = React.memo(() => {
       defaultOpenKeys={["/" + router.pathname.split("/")[1]]}
     >
       {RouteList.map(({path, name, children, role}) => {
-        if (role?.includes(userRole ?? IAccountRole.ANONYMOUS)) {
-          return null;
-        }
+        // if (role?.includes(userRole ?? IAccountRole.ANONYMOUS)) {
+        //   return null;
+        // }
         if (children) {
           return (
             <Menu.SubMenu key={path} title={name}>
@@ -62,6 +59,7 @@ const RenderMenu = React.memo(() => {
           <Menu.Item
             key={path}
             className="sidebar-item"
+            hidden={role && userRole ? !role?.includes(userRole) : undefined}
             onClick={(): void => {
               router.push(path);
             }}
@@ -79,7 +77,7 @@ RenderMenu.displayName = "RenderMenu";
  *
  */
 export default function Sidebar(): JSX.Element {
-  const isOpen = useSelector((state: IRootState) => state.menu.isOpen);
+  // const isOpen = useSelector((state: IRootState) => state.menu.isOpen);
   const dispatch = useDispatch();
 
   const handleLogout = (): void => {
@@ -96,15 +94,24 @@ export default function Sidebar(): JSX.Element {
   return (
     <>
       {/* Sidebar overlay. Only work with screen < 768px */}
-      <div
-        role="presentation"
-        className={classNames("sidebar-overlay", {open: isOpen})}
-        onClick={(): void => {
-          dispatch(toggleMenu());
-        }}
-      />
+
+      {/* <div */}
+
+      {/*  role="presentation" */}
+
+      {/*  className={classNames("sidebar-overlay", {open: isOpen})} */}
+
+      {/*  onClick={(): void => { */}
+
+      {/*    dispatch(toggleMenu()); */}
+
+      {/*  }} */}
+
+      {/* /> */}
+
       {/* Sidebar */}
-      <div className={classNames("sidebar", {open: isOpen})}>
+
+      <div className={classNames("sidebar")}>
         <div className="logo-container">
           <Image src="/img/logo/logo.png" alt="logo" width={20} height={20} />
         </div>

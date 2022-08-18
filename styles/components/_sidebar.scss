@@ -1,12 +1,11 @@
 .sidebar {
   background-color: $sidebar-background;
-  height: 100%;
+  height: 100vh;
   width: $sidebar-width;
-  position: fixed;
   top: 0;
   left: -$sidebar-width;
   transition: left $transition-layout-time;
-  overflow: auto;
+  //overflow: auto;
 
   z-index: 1001;
 

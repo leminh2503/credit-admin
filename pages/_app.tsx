@@ -12,6 +12,7 @@ import {AppProps} from "next/app";
 import validatorOptions from "../utils/validation";
 import {ValidatorProvider} from "../utils/class-validator";
 import Config from "../config";
+import {ModalPortal} from "@app/utils/hooks/modal";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,6 +39,7 @@ export default function MyApp({
                 pageProps={pageProps}
                 router={router}
               />
+              <ModalPortal />
             </ValidatorProvider>
           </QueryClientProvider>
         </PersistGate>

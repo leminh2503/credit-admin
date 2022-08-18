@@ -1,6 +1,6 @@
 import {fetcher} from "./Fetcher";
 import store from "../redux/store";
-import {IAccountRole} from "../types";
+import {IAccountRole, IUserLogin} from "../types";
 
 export interface ILoginBody {
   email: string;
@@ -12,9 +12,29 @@ export interface ILoginResponse {
   role?: number | string;
 }
 
+export interface IParamsGetUser {
+  sort?: string[];
+  searchFields?: string[];
+  pageSize?: number;
+  pageNumber?: number;
+  disablePagination?: boolean;
+  search?: string;
+  searchType?: string;
+}
+
 const path = {
   login: "/auth/login",
+  getMe: "/users/me",
+  getUserAccount: "/users",
 };
+
+function getUserAccount(params?: IParamsGetUser): Promise<IUserLogin[]> {
+  return fetcher({url: path.getUserAccount, method: "get", params: params});
+}
+
+function getMe(): Promise<IUserLogin> {
+  return fetcher({url: path.getMe, method: "get"});
+}
 
 function login(body: ILoginBody): Promise<ILoginResponse> {
   return fetcher(
@@ -27,14 +47,9 @@ function isLogin(): boolean {
   return !!getAuthToken();
 }
 
-function isAnonymous(): boolean {
-  const {user} = store.getState();
-  return user?.user?.role === IAccountRole.ANONYMOUS;
-}
-
 function getUserRole(): IAccountRole | undefined {
   const {user} = store.getState();
-  return user?.user?.role;
+  return user?.user?.role?.id;
 }
 
 function getAuthToken(): string | undefined {
@@ -47,5 +62,6 @@ export default {
   isLogin,
   getAuthToken,
   getUserRole,
-  isAnonymous,
+  getMe,
+  getUserAccount,
 };

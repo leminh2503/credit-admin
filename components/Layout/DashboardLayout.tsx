@@ -18,6 +18,7 @@ export default function DashboardLayout({
     Config.LAYOUT_CONFIG;
   return (
     <div className="wrapper">
+      {useSidebar && <Sidebar />}
       <Main>
         {useNavbar && <Navbar />}
         <Content>
@@ -26,7 +27,6 @@ export default function DashboardLayout({
           {useFooter && <Footer />}
         </Content>
       </Main>
-      {useSidebar && <Sidebar />}
     </div>
   );
 }

@@ -23,20 +23,31 @@ export enum IAccountRole {
   ANONYMOUS = 2,
 }
 
+export enum IState {
+  INACTIVE,
+  ACTIVE,
+  DELETED,
+}
+
 export interface IUserLogin {
   _id?: string;
-  username?: string;
+  fullName?: string;
+  state?: IState;
   email?: string;
-  lastName?: string;
-  firstName?: string;
+  dateOfBirth?: string;
+  positionId?: number;
   avatar?: string;
-  bio?: string;
-  website?: string;
-  facebook?: string;
-  role?: IAccountRole;
-  interactionId?: string;
-  settingId?: ISettingId;
-  hasPassword?: boolean;
+  personId?: number;
+  address?: string;
+  phoneNumber?: string;
+  role?: {
+    id?: IAccountRole;
+    roleName?: string;
+  };
+  phoneNumberRelative?: string;
+  baseSalary?: number;
+  manageSalary?: number;
+  gender?: string;
 }
 
 export interface IProfile {

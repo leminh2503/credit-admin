@@ -9,14 +9,18 @@ import {useDispatch} from "react-redux";
 import {loginUser} from "@app/redux/slices/UserSlice";
 import {useRouter} from "next/router";
 import Config from "@app/config";
+import {IAccountInfo} from "@app/types";
 
 interface SignInProps {
   changeTab: (tab: string) => void;
 }
 export function SignIn({changeTab}: SignInProps): JSX.Element {
   const dispatch = useDispatch();
+
   const router = useRouter();
+
   const loginMutation = useMutation(ApiUser.login);
+
   const handleLogin = (
     values: ILoginBody,
     {setSubmitting}: {setSubmitting: (isSubmitting: boolean) => void}
@@ -24,7 +28,7 @@ export function SignIn({changeTab}: SignInProps): JSX.Element {
     loginMutation.mutate(
       {email: values.email, password: values.password},
       {
-        onSuccess: (res) => {
+        onSuccess: (res: IAccountInfo) => {
           dispatch(loginUser({...res}));
           router.push(Config.PATHNAME.HOME);
           setSubmitting(false);
