@@ -39,6 +39,7 @@
 12. Class Validator Docs `https://www.npmjs.com/package/class-validator#validation-decorators`
 13. React i18next Docs `https://react.i18next.com/`
 14. Redux toolkit Docs `https://redux-toolkit.js.org/usage/usage-guide`
+15. Typescript Docs `https://www.typescriptlang.org/docs/`
 
 # Plugins
 
@@ -57,8 +58,3 @@
 3. Always merge develop to your branch before commit
 4. Run `npm run pre-commit` to check if your code have any problem before commit
 5. Must clean code before create merge request
-
-## TODO
-
-1. Create code style schemas
-2. Build a login page
