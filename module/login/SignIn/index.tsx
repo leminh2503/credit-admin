@@ -1,15 +1,20 @@
 import "./index.scss";
 import {Formik} from "formik";
 import {Form, Image, Row} from "antd";
-import {TextInput} from "@app/components/TextInput";
 import {ButtonSubmit} from "@app/components/ButtonSubmit";
 import {useMutation} from "react-query";
-import ApiUser, {ILoginBody} from "@app/api/ApiUser";
+import ApiUser from "@app/api/ApiUser";
 import {useDispatch} from "react-redux";
 import {loginUser} from "@app/redux/slices/UserSlice";
 import {useRouter} from "next/router";
 import Config from "@app/config";
 import {IAccountInfo} from "@app/types";
+import {
+  getValidationSchema,
+  ILoginForm,
+} from "@app/module/login/NewPassword/form-config";
+import {Input} from "formik-antd";
+import FormItem from "@app/components/FormItem";
 
 interface SignInProps {
   changeTab: (tab: string) => void;
@@ -22,7 +27,7 @@ export function SignIn({changeTab}: SignInProps): JSX.Element {
   const loginMutation = useMutation(ApiUser.login);
 
   const handleLogin = (
-    values: ILoginBody,
+    values: ILoginForm,
     {setSubmitting}: {setSubmitting: (isSubmitting: boolean) => void}
   ): void => {
     loginMutation.mutate(
@@ -33,7 +38,7 @@ export function SignIn({changeTab}: SignInProps): JSX.Element {
           router.push(Config.PATHNAME.HOME);
           setSubmitting(false);
         },
-        onError: (error) => {
+        onError: () => {
           setSubmitting(false);
         },
       }
@@ -44,16 +49,10 @@ export function SignIn({changeTab}: SignInProps): JSX.Element {
       initialValues={{email: "", password: ""}}
       validateOnChange={false}
       validateOnBlur
-      // validate={loginValidation}
+      validationSchema={getValidationSchema()}
       onSubmit={handleLogin}
     >
-      {({
-        values,
-        handleChange,
-        handleBlur,
-        isSubmitting,
-        handleSubmit,
-      }): JSX.Element => (
+      {({isSubmitting, handleSubmit}): JSX.Element => (
         <div className="container-sign-in">
           <Form onFinish={handleSubmit} className="container-sign-in">
             <div className="header-wrapper">
@@ -64,27 +63,17 @@ export function SignIn({changeTab}: SignInProps): JSX.Element {
               />
               <div className="login-text">Đăng nhập</div>
             </div>
-            <div>
-              <TextInput
-                placeholder="Nhập tài khoản"
-                label="Tài khoản"
-                value={values.email}
-                handleBlur={handleBlur}
-                handleChange={handleChange}
-                name="email"
-              />
-            </div>
-            <div className="pt-20">
-              <TextInput
-                label="Mật khẩu"
-                placeholder="Nhập mật khẩu"
-                value={values.password}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-                name="password"
-                type="password"
-              />
-            </div>
+            <FormItem name="email" label="Tài khoản" required>
+              <Input name="email" placeholder="Nhập tài khoản" />
+            </FormItem>
+            <FormItem
+              className="pt-20"
+              name="password"
+              label="Mật khẩu"
+              required
+            >
+              <Input.Password name="password" placeholder="Nhập mật khẩu" />
+            </FormItem>
             <Row
               role="button"
               tabIndex={0}

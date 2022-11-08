@@ -4,19 +4,21 @@
 
 1. Install Node version 18
 2. Install npm
-3. Install dependencies
-   `npm install`
+3. Install yarn
+   `npm install -g yarn`
+4. Install dependencies
+   `yarn bootstrap`
 
 ## Local Develop
 
 1. Cope file `.env.development` to `.env.development.local`
 2. Edit `.env.development.local` file to fit environment
-3. `npm run dev`
+3. `yarn dev`
 
 ## Run production
 
-1. Build using `npm run build`
-2. Run production `npm run start`
+1. Build using `yarn build`
+2. Run production `yarn start`
 
 ## Run production with Docker
 

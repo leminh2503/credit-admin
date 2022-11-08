@@ -8,11 +8,9 @@ import "@fortawesome/fontawesome-free/js/all.min";
 import "antd/dist/antd.css";
 import "tailwindcss/tailwind.css";
 import "../styles/_app.scss";
+import "../utils/I18n";
 import {AppProps} from "next/app";
-import validatorOptions from "../utils/validation";
-import {ValidatorProvider} from "../utils/class-validator";
 import Config from "../config";
-import {ModalPortal} from "@app/utils/hooks/modal";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,14 +31,11 @@ export default function MyApp({
       <Provider store={store}>
         <PersistGate persistor={persistor}>
           <QueryClientProvider client={queryClient}>
-            <ValidatorProvider options={validatorOptions}>
-              <Routes
-                Component={Component}
-                pageProps={pageProps}
-                router={router}
-              />
-              <ModalPortal />
-            </ValidatorProvider>
+            <Routes
+              Component={Component}
+              pageProps={pageProps}
+              router={router}
+            />
           </QueryClientProvider>
         </PersistGate>
       </Provider>
@@ -50,9 +45,7 @@ export default function MyApp({
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <ValidatorProvider options={validatorOptions}>
-          <Routes Component={Component} pageProps={pageProps} router={router} />
-        </ValidatorProvider>
+        <Routes Component={Component} pageProps={pageProps} router={router} />
       </QueryClientProvider>
     </Provider>
   );
