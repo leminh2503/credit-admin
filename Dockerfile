@@ -9,10 +9,10 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 USER node
-RUN npm install
+RUN yarn
 
 COPY --chown=node:node . .
 
 EXPOSE 3000
 RUN yarn build
-CMD [ "npm", "run", "start" ]
+CMD [ "yarn", "start" ]

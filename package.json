@@ -16,8 +16,8 @@
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "check-types": "tsc --pretty --noEmit",
-    "pre-commit": "npm run lint && npm run prettier && npm run check-types",
-    "test-all": "npm run lint && npm run prettier && npm run check-types && npm run build",
+    "pre-commit": "yarn lint && yarn prettier && yarn check-types",
+    "test-all": "yarn lint && yarn prettier && yarn check-types && yarn build",
     "prepare": "husky install"
   },
   "dependencies": {

@@ -4,21 +4,21 @@
 echo '👷 Styling, testing your project before committing'
 
 # Check Prettier standards
-npm run prettier ||
+yarn prettier ||
 (
-    echo '🤡 Run npm run prettier:fix to format your code then add changes and try commit again.';
+    echo '🤡 Run yarn prettier:fix to format your code then add changes and try commit again.';
     false;
 )
 
 # Check ESLint Standards
-npm run lint ||
+yarn lint ||
 (
     echo '🤡 ESLint Check Failed. Make the changes required above.'
     false;
 )
 
 # Check tsconfig standards
-npm run check-types ||
+yarn check-types ||
 (
     echo '🤡 Failed Type check. Make the changes required above.'
     false;

@@ -4,10 +4,8 @@
 
 1. Install Node version 18
 2. Install npm
-3. Install yarn
-   `npm install -g yarn`
-4. Install dependencies
-   `yarn bootstrap`
+3. Install yarn: `npm install -g yarn`
+4. Install dependencies: `yarn bootstrap`
 
 ## Local Develop
 
@@ -38,7 +36,7 @@
 9. Moment.js Docs `https://momentjs.com/docs/`
 10. Lodash Docs `https://lodash.com/docs/`
 11. Redux Docs `https://redux.js.org/introduction/getting-started`
-12. Class Validator Docs `https://www.npmjs.com/package/class-validator#validation-decorators`
+12. Yup Docs `https://github.com/jquense/yup`
 13. React i18next Docs `https://react.i18next.com/`
 14. Redux toolkit Docs `https://redux-toolkit.js.org/usage/usage-guide`
 15. Typescript Docs `https://www.typescriptlang.org/docs/`
@@ -48,6 +46,7 @@
 1. Prettier `https://plugins.jetbrains.com/plugin/10456-prettier`
 2. i18n support `https://plugins.jetbrains.com/plugin/12981-i18n-support`
 3. Tailwindcss `https://plugins.jetbrains.com/plugin/15321-tailwind-css`
+4. Commitlint `https://plugins.jetbrains.com/plugin/14046-commitlint-conventional-commit`
 
 # Team
 
@@ -58,5 +57,5 @@
 1. Never use branch master for anything
 2. Only work on branch you in charge of
 3. Always merge develop to your branch before commit
-4. Run `npm run pre-commit` to check if your code have any problem before commit
+4. Run `yarn pre-commit` to check if your code have any problem before commit
 5. Must clean code before create merge request
