@@ -1,12 +1,12 @@
 import * as Yup from "yup";
-import {SchemaOf} from "yup";
+import {Schema} from "yup";
 
 export interface ILoginForm {
   email: string;
   password: string;
 }
 
-export function getValidationSchema(): SchemaOf<ILoginForm> {
+export function getValidationSchema(): Schema<ILoginForm> {
   return Yup.object().shape({
     email: Yup.string()
       .email("common_validation.email_is_not")

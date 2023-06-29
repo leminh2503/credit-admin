@@ -45,9 +45,9 @@ export function Home(): JSX.Element {
     });
   };
 
-  const onRow = (record: IUserLogin): {onDoubleClick: (e: any) => void} => {
+  const onRow = () => {
     return {
-      onDoubleClick: (e: any) => {
+      onDoubleClick: (): void => {
         showModal();
       },
     };

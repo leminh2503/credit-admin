@@ -1,10 +1,10 @@
 import axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from "axios";
-import {notification} from "antd";
-import _ from "lodash";
+import {Modal, notification} from "antd";
 import Config from "../config";
 import store, {persistor} from "../redux/store";
 import ListErrorMessage from "./ErrorMessage/ListErrorMessage";
 import {loginUser} from "../redux/slices/UserSlice";
+import toString from "lodash.tostring";
 
 export interface IDataError {
   errorCode: string;
@@ -70,23 +70,23 @@ function confirmLogout(
   cnt: string,
   isRequiredLogOut: boolean
 ): void {
-  logout();
-  // Modal.destroyAll();
-  // if (!isRequiredLogOut) {
-  //   Modal.confirm({
-  //     title: msg,
-  //     content: cnt,
-  //     onOk: (): void => logout(),
-  //     // onCancel: (): void => logout(),
-  //   });
-  // } else {
-  //   Modal.confirm({
-  //     title: msg,
-  //     content: cnt,
-  //     onOk: (): void => logout(),
-  //     onCancel: (): void => logout(),
-  //   });
-  // }
+  // logout();
+  Modal.destroyAll();
+  if (!isRequiredLogOut) {
+    Modal.confirm({
+      title: msg,
+      content: cnt,
+      onOk: (): void => logout(),
+      // onCancel: (): void => logout(),
+    });
+  } else {
+    Modal.confirm({
+      title: msg,
+      content: cnt,
+      onOk: (): void => logout(),
+      onCancel: (): void => logout(),
+    });
+  }
 }
 
 function displayError(dataError: IDataError): void {
@@ -109,7 +109,7 @@ function displayError(dataError: IDataError): void {
   } catch (e) {
     notification.error({
       message: "Something is wrong. Please try again",
-      description: _.toString(e),
+      description: toString(e),
       duration: 3,
     });
   }

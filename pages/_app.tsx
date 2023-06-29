@@ -3,12 +3,10 @@ import {PersistGate} from "redux-persist/integration/react";
 import {QueryClient, QueryClientProvider} from "react-query";
 import store, {persistor} from "../redux/store";
 import Routes from "../routes";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import "@fortawesome/fontawesome-free/js/all.min";
-import "antd/dist/antd.css";
 import "tailwindcss/tailwind.css";
 import "../styles/_app.scss";
 import "../utils/I18n";
+import "../utils/firebase";
 import {AppProps} from "next/app";
 import Config from "../config";
 

@@ -32,10 +32,22 @@ const LANGUAGE = {
   DEFAULT: "en",
 };
 
+// FIREBASE
+const FIREBASE = {
+  apiKey: "AIzaSyCKkv7LL9tO5D0U4Cnfi3CM-OFpuyseq_M",
+  authDomain: "nextjs-core.firebaseapp.com",
+  projectId: "nextjs-core",
+  storageBucket: "nextjs-core.appspot.com",
+  messagingSenderId: "905897922179",
+  appId: "1:905897922179:web:b075e0fe50ba8bbafa15b6",
+  measurementId: "G-ZDEHHJF4SZ",
+};
+
 export default {
   STORE_NAME,
   NETWORK_CONFIG,
   PATHNAME,
   LAYOUT_CONFIG,
   LANGUAGE,
+  FIREBASE,
 };

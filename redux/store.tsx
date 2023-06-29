@@ -21,13 +21,13 @@ const createNoopStorage = (): {
   removeItem: (_key: string) => Promise<void>;
 } => {
   return {
-    getItem(_key): Promise<null> {
+    getItem(): Promise<null> {
       return Promise.resolve(null);
     },
     setItem(_key, value): Promise<unknown> {
       return Promise.resolve(value);
     },
-    removeItem(_key): Promise<void> {
+    removeItem(): Promise<void> {
       return Promise.resolve();
     },
   };

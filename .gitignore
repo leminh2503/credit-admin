@@ -38,3 +38,7 @@ yarn-error.log*
 # lock files
 yarn.lock
 package-lock.json
+
+# IDE generated files
+/.vscode/*
+/.idea/*

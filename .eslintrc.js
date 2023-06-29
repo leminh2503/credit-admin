@@ -22,7 +22,6 @@ module.exports = {
       extends: [
         "next",
         "eslint:recommended",
-        "react-app",
         "airbnb",
         "prettier",
         "plugin:@typescript-eslint/recommended", // TypeScript rules
@@ -46,6 +45,7 @@ module.exports = {
         "react/require-default-props": "off",
         "no-shadow": "off",
         "no-restricted-exports": "off",
+        "endOfLine": "off",
 
         // Weak warning
         "import/no-unresolved": 0,
@@ -73,7 +73,7 @@ module.exports = {
         "default-param-last": 0,
         "default-case": 0,
         "max-len": [0, {code: 80, ignorePattern: true}],
-        "endOfLine": 0,
+        "@typescript-eslint/explicit-function-return-type": 0,
 
         // Warning
         "semi": 1,
@@ -85,7 +85,6 @@ module.exports = {
           "double",
           {avoidEscape: true, allowTemplateLiterals: true},
         ],
-        "@typescript-eslint/explicit-function-return-type": 1,
 
         // Error
         "import/no-cycle": "error",
