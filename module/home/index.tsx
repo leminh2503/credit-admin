@@ -5,7 +5,6 @@ import React, {useEffect, useState} from "react";
 import ApiUser from "@app/api/ApiUser";
 import {IUserLogin} from "@app/types";
 import {useQuery} from "react-query";
-import Icon from "@app/components/Icon/Icon";
 import {ModalInfo} from "@app/module/home/ModalConfirm";
 
 export function Home(): JSX.Element {
@@ -125,7 +124,6 @@ export function Home(): JSX.Element {
           onClick={(): void => {
             handleUserAction(record);
           }}
-          icon={<Icon icon="Edit_Profile" size={30} />}
         />
       ),
     },

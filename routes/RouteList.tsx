@@ -99,6 +99,12 @@ const routes: IRoute[] = [
     role: [IAccountRole.ADMIN],
     isSidebar: true,
   },
+  {
+    path: "/icon-gallery",
+    name: "Icon Gallery",
+    isPublic: true,
+    isSSR: false,
+  },
 ];
 
 export default routes;

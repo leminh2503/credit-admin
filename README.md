@@ -59,3 +59,9 @@
 3. Always merge develop to your branch before commit
 4. Run `yarn pre-commit` to check if your code have any problem before commit
 5. Must clean code before create merge request
+
+## Documentation
+
+- [Getting Started](docs/Getting%20started)
+- [How to](docs/How%20to)
+- [Scripts](docs/Scripts)

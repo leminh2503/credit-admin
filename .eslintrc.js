@@ -73,6 +73,7 @@ module.exports = {
         "default-param-last": 0,
         "default-case": 0,
         "max-len": [0, {code: 80, ignorePattern: true}],
+        "endOfLine": 0,
 
         // Warning
         "semi": 1,

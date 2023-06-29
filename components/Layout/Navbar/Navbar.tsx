@@ -29,8 +29,6 @@ export default function Navbar(): JSX.Element {
     });
   }, []);
 
-  console.log(user);
-
   // const handleLogout = (): void => {
   //   Modal.confirm({
   //     title: "Đăng xuất",
