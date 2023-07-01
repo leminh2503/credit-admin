@@ -21,6 +21,7 @@
     "generate-icon": "cross-env FIGMA_TOKEN=figd_PZ23wpma0KBs4GO5IhBE4DlK6V3hyHqJL0pJxFlM figma-export use-config scripts/generate-icon/.figmaexportrc.components.js && eslint --fix ./components/Icon",
     "generate-icon-previewer": "node scripts/generate-icon/generate-gallery.js && eslint --fix ./pages/icon-gallery.tsx",
     "generate-style": "cross-env FIGMA_TOKEN=figd_PZ23wpma0KBs4GO5IhBE4DlK6V3hyHqJL0pJxFlM figma-export use-config scripts/generate-styles/.figmaexportrc.styles.js",
+    "proxy": "node scripts/proxy/index.js -p 5000 -t https://google.com",
     "analyze": "cross-env ANALYZE=true next build",
     "prepare": "husky install"
   },
@@ -75,6 +76,7 @@
     "@types/react-redux": "^7.1.25",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
+    "command-line-args": "^5.2.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.43.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -85,6 +87,8 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "http": "^0.0.1-security",
+    "http-proxy": "^1.18.1",
     "husky": "^8.0.3",
     "prettier": "^2.8.8",
     "typescript": "^5.0.4"
