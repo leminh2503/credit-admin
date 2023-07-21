@@ -8,11 +8,16 @@
  * Example: If you set the port to 3000 and target to https://dev.nibo.ai then
  * your actual "resourceBaseUrl" in NiboSettings should be http://localhost:3000/api/v1
  */
-  // Define the command line options
+// Define the command line options
 const optionDefinitions = [
-    { name: "port", alias: "p", type: Number, defaultValue: 5000 },
-    { name: "target", alias: "t", type: String, defaultValue: "http://localhost:3000" }
-  ];
+  {name: "port", alias: "p", type: Number, defaultValue: 5000},
+  {
+    name: "target",
+    alias: "t",
+    type: String,
+    defaultValue: "http://localhost:3000",
+  },
+];
 
 const commandLineArgs = require("command-line-args");
 // parse command line options
@@ -25,15 +30,17 @@ const httpProxy = require("http-proxy");
 
 // Create a proxy server with custom application logic
 const proxy = httpProxy.createProxyServer({});
-const sendError = function(res, err) {
+const sendError = function (res, err) {
   res.writeHead(500, {
-    'Content-Type': 'application/json'
+    "Content-Type": "application/json",
   });
 
-  return res.end(JSON.stringify({
-    error: err,
-    message: "An error occurred in the proxy"
-  }));
+  return res.end(
+    JSON.stringify({
+      error: err,
+      message: "An error occurred in the proxy",
+    })
+  );
 };
 
 // error handling
@@ -41,43 +48,54 @@ proxy.on("error", function (err, req, res) {
   sendError(res, err);
 });
 
-const enableCors = function(req, res) {
-  if (req.headers['access-control-request-method']) {
-    res.setHeader('access-control-allow-methods', req.headers['access-control-request-method']);
+const enableCors = function (req, res) {
+  if (req.headers["access-control-request-method"]) {
+    res.setHeader(
+      "access-control-allow-methods",
+      req.headers["access-control-request-method"]
+    );
   }
 
-  if (req.headers['access-control-request-headers']) {
-    res.setHeader('access-control-allow-headers', req.headers['access-control-request-headers']);
+  if (req.headers["access-control-request-headers"]) {
+    res.setHeader(
+      "access-control-allow-headers",
+      req.headers["access-control-request-headers"]
+    );
   }
 
   if (req.headers.origin) {
-    res.setHeader('access-control-allow-origin', req.headers.origin);
-    res.setHeader('access-control-allow-credentials', 'true');
+    res.setHeader("access-control-allow-origin", req.headers.origin);
+    res.setHeader("access-control-allow-credentials", "true");
   }
 };
 
 // set header for CORS
-proxy.on("proxyRes", function(proxyRes, req, res) {
+proxy.on("proxyRes", function (proxyRes, req, res) {
   enableCors(req, res);
 });
 
-const server = http.createServer(function(req, res) {
+const server = http.createServer(function (req, res) {
   // You can define here your custom logic to handle the request
   // and then proxy the request.
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     enableCors(req, res);
     res.writeHead(200);
     res.end();
     return;
   }
 
-  proxy.web(req, res, {
-    target: options.target,
-    secure: true,
-    changeOrigin: true
-  }, function(err) {
-    sendError(res, err);
-  });
+  proxy.web(
+    req,
+    res,
+    {
+      target: options.target,
+      secure: true,
+      changeOrigin: true,
+    },
+    function (err) {
+      sendError(res, err);
+    }
+  );
 });
 
 server.listen(options.port);

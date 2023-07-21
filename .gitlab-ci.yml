@@ -12,19 +12,16 @@ build:
 prettier-test:
   stage: test
   script:
-    - yarn bootstrap
     - yarn prettier
 
 lint-test:
   stage: test
   script:
-    - yarn bootstrap
     - yarn lint
 
 type-test:
   stage: test
   script:
-    - yarn bootstrap
     - yarn check-types
 
 deploy-prod:
