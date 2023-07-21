@@ -8,20 +8,17 @@ build:
   script:
     - yarn bootstrap
     - yarn build
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - .next
+      - node_modules/
 
-prettier-test:
-  stage: test
-  script:
-    - yarn prettier
-
-lint-test:
+code-test:
   stage: test
   script:
     - yarn lint
-
-type-test:
-  stage: test
-  script:
+    - yarn prettier
     - yarn check-types
 
 deploy-prod:
