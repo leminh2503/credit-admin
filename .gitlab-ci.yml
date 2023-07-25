@@ -1,18 +1,19 @@
 stages:
+  - install
   - build
   - test
   - deploy
 
-build:
-  stage: build
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .next
+    - node_modules/
+
+install_dependencies:
+  stage: install
   script:
     - yarn bootstrap
-    - yarn build
-  artifacts:
-    expire_in: 1 hour
-    paths:
-      - .next
-      - node_modules/
 
 code-test:
   stage: test
@@ -21,8 +22,12 @@ code-test:
     - yarn prettier
     - yarn check-types
 
+build:
+  stage: build
+  script:
+    - yarn build
+
 deploy-prod:
   stage: deploy
   script:
     - echo "This job deploys something from the branch."
-  environment: production
