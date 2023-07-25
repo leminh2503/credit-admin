@@ -47,6 +47,8 @@ install_dependencies:
     - <<: *yarn-cache # This is not required if your internet speed is good or if you use a local npm registry.
   script:
     - yarn bootstrap --cache-folder .yarn
+    - yarn eslint --help
+    - yarn prettier --help
 
 code-test:
   stage: test
