@@ -53,7 +53,6 @@ code-test:
   cache:
     - <<: *node_modules-cache
   script:
-    - yarn bootstrap --cache-folder .yarn
     - yarn lint
     - yarn prettier
     - yarn check-types
@@ -67,7 +66,6 @@ build:
     - <<: *node_modules-cache
     - <<: *build-cache
   script:
-    - yarn bootstrap --cache-folder .yarn
     - yarn build
   rules:
     - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH" # Run job on main branch
