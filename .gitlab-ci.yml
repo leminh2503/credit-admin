@@ -1,7 +1,7 @@
 stages:
   - install
-  - build
   - test
+  - build
   - deploy
 
 default:
@@ -15,8 +15,8 @@ variables:
 
 workflow:
   rules:
-    - if: '$CI_MERGE_REQUEST_IID' # Run pipelines on Merge Requests
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH' # Run pipelines on main branch
+    - if: "$CI_MERGE_REQUEST_IID" # Run pipelines on Merge Requests
+    - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH" # Run pipelines on main branch
 
 # Caches
 .node_modules-cache: &node_modules-cache
@@ -57,8 +57,8 @@ code-test:
     - yarn prettier
     - yarn check-types
   rules:
-    - if: '$CI_MERGE_REQUEST_IID' # Run job on Merge Requests
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH' # Run job on main branch
+    - if: "$CI_MERGE_REQUEST_IID" # Run job on Merge Requests
+    - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH" # Run job on main branch
 
 build:
   stage: build
@@ -68,7 +68,7 @@ build:
   script:
     - yarn build
   rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH' # Run job on main branch
+    - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH" # Run job on main branch
 
 deploy-prod:
   stage: deploy
