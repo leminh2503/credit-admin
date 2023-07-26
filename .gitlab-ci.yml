@@ -49,6 +49,10 @@ workflow:
 .run-on-default-branch: &run-on-default-branch # Run job on main branch
   if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
 
+.run-on-product-tag:
+  &run-on-product-tag # Run job when create tag on main branch
+  if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TAG =~ /^v\\d+.\\d+.\\d+/"
+
 # Jobs
 install_dependencies:
   stage: install
@@ -102,10 +106,8 @@ build-docker:
     - docker:dind
   before_script:
     - docker info
-  only:
-    - tags
-  except:
-    - branches
+  rules:
+    - <<: *run-on-product-tag
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $IMAGE_TAG .
@@ -114,10 +116,8 @@ build-docker:
 deploy:
   image: alpine:latest
   stage: deploy
-  only:
-    - tags
-  except:
-    - branches
+  rules:
+    - <<: *run-on-product-tag
   script:
     - chmod og= $PRODUCT_ID_RSA
     - apk update && apk add openssh-client
