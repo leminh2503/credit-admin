@@ -1,25 +1,30 @@
+# Define stages for pipeline
 stages:
   - install
   - test
   - build
   - deploy
 
+# Setup default image for job
 default:
   image: node:18-alpine
 
+# Variable for job
 variables:
-  FF_USE_FASTZIP: "true"
-  # These can be specified per job or per pipeline
+  FF_USE_FASTZIP: "true" # Fastzip is a performant archiver for cache/artifact archiving and extraction
   ARTIFACT_COMPRESSION_LEVEL: "fast"
   CACHE_COMPRESSION_LEVEL: "fast"
+  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+  DOCKERFILE: ${CI_ENVIRONMENT_NAME}/Dockerfile
 
+# Define when the pipeline will run
 workflow:
   rules:
     - if: "$CI_MERGE_REQUEST_IID" # Run pipelines on Merge Requests
     - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH" # Run pipelines on main branch
 
-# Caches
-.node_modules-cache: &node_modules-cache
+# YAML anchors
+.node_modules-cache: &node_modules-cache # Cache node_modules
   key:
     files:
       - yarn.lock
@@ -27,18 +32,25 @@ workflow:
     - node_modules
   policy: pull
 
-.yarn-cache: &yarn-cache
+.yarn-cache: &yarn-cache # Cache .yarn
   key: yarn-$CI_JOB_IMAGE
   paths:
     - .yarn
 
-.build-cache: &build-cache
+.build-cache: &build-cache # Cache build
   key: build-$CI_JOB_IMAGE
   paths:
     - .next
     - public
-  policy: pull-push
+  policy: pull
 
+.run-on-merge-request: &run-on-merge-request # Run job on Merge Requests
+  if: "$CI_MERGE_REQUEST_IID"
+
+.run-on-default-branch: &run-on-default-branch # Run job on main branch
+  if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+
+# Jobs
 install_dependencies:
   stage: install
   cache:
@@ -52,25 +64,51 @@ code-test:
   stage: test
   cache:
     - <<: *node_modules-cache
+  rules:
+    - <<: *run-on-merge-request
+    - <<: *run-on-default-branch
   script:
     - yarn lint
     - yarn prettier
     - yarn check-types
+
+unit-test:
+  stage: test
+  cache:
+    - <<: *node_modules-cache
   rules:
-    - if: "$CI_MERGE_REQUEST_IID" # Run job on Merge Requests
-    - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH" # Run job on main branch
+    - <<: *run-on-merge-request
+    - <<: *run-on-default-branch
+  script:
+    - yarn test
 
 build:
   stage: build
   cache:
     - <<: *node_modules-cache
     - <<: *build-cache
+      policy: pull-push # We override the policy
+  rules:
+    - <<: *run-on-default-branch
   script:
     - yarn build
-  rules:
-    - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH" # Run job on main branch
 
-deploy-prod:
+build-docker:
   stage: deploy
+  cache:
+    - <<: *node_modules-cache
+    - <<: *build-cache
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  before_script:
+    - docker info
+  rules:
+    - <<: *run-on-default-branch
   script:
-    - echo "This job deploys something from the branch."
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -f $DOCKERFILE -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
