@@ -23,7 +23,7 @@
 1. Build your container: `docker-compose build`
 2. Run your container: `docker-compose up`
 
-## Documentation
+## Library Documentation
 
 1. Tailwindcss Docs `https://tailwindcss.com/docs`
 2. Formik Docs `https://formik.org/docs/overview`
@@ -40,6 +40,7 @@
 13. React i18next Docs `https://react.i18next.com/`
 14. Redux toolkit Docs `https://redux-toolkit.js.org/usage/usage-guide`
 15. Typescript Docs `https://www.typescriptlang.org/docs/`
+16. JSON Server Docs `https://github.com/typicode/json-server`
 
 # Plugins
 

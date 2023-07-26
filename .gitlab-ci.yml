@@ -97,9 +97,6 @@ build-docker:
   cache:
     - <<: *node_modules-cache
     - <<: *build-cache
-  #  variables:
-  #    DOCKER_HOST: tcp://docker:2375
-  #    DOCKER_TLS_CERTDIR: ""
   image: docker
   services:
     - docker:dind
