@@ -15,7 +15,6 @@ variables:
   ARTIFACT_COMPRESSION_LEVEL: "fast"
   CACHE_COMPRESSION_LEVEL: "fast"
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
-  DOCKERFILE: ${CI_ENVIRONMENT_NAME}/Dockerfile
 
 # Define when the pipeline will run
 workflow:
@@ -110,5 +109,5 @@ build-docker:
     - <<: *run-on-default-branch
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -f $DOCKERFILE -t $IMAGE_TAG .
+    - docker build -t $IMAGE_TAG .
     - docker push $IMAGE_TAG
