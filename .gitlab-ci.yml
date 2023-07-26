@@ -33,7 +33,7 @@ variables:
 
 .run-on-product-tag: &run-on-product-tag # Run job when create tag on main branch
 #  if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TAG =~ /^v\\d+.\\d+.\\d+/"
-  if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TAG"
+  if: "$CI_COMMIT_TAG"
 
 # Jobs
 install_dependencies:
