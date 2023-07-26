@@ -25,18 +25,6 @@ variables:
     - node_modules
   policy: pull
 
-.yarn-cache: &yarn-cache # Cache .yarn
-  key: yarn-$CI_JOB_IMAGE
-  paths:
-    - .yarn
-
-.build-cache: &build-cache # Cache build
-  key: build-$CI_JOB_IMAGE
-  paths:
-    - .next
-    - public
-  policy: pull
-
 .run-on-merge-request: &run-on-merge-request # Run job on Merge Requests
   if: "$CI_MERGE_REQUEST_IID"
 
@@ -44,7 +32,8 @@ variables:
   if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
 
 .run-on-product-tag: &run-on-product-tag # Run job when create tag on main branch
-  if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TAG =~ /^v\\d+.\\d+.\\d+/"
+#  if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TAG =~ /^v\\d+.\\d+.\\d+/"
+  if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TAG"
 
 # Jobs
 install_dependencies:
@@ -52,7 +41,9 @@ install_dependencies:
   cache:
     - <<: *node_modules-cache
       policy: pull-push # We override the policy
-    - <<: *yarn-cache # This is not required if your internet speed is good or if you use a local npm registry.
+  rules:
+    - <<: *run-on-merge-request
+    - <<: *run-on-default-branch
   script:
     - yarn bootstrap --cache-folder .yarn
 
@@ -82,8 +73,6 @@ build:
   stage: build
   cache:
     - <<: *node_modules-cache
-    - <<: *build-cache
-      policy: pull-push # We override the policy
   rules:
     - <<: *run-on-default-branch
   script:
@@ -91,9 +80,6 @@ build:
 
 build-docker:
   stage: deploy
-  cache:
-    - <<: *node_modules-cache
-    - <<: *build-cache
   image: docker
   services:
     - docker:dind
@@ -111,6 +97,9 @@ deploy:
   stage: deploy
   rules:
     - <<: *run-on-product-tag
+  before_script:
+    - echo $CI_COMMIT_BRANCH
+    - echo $CI_COMMIT_TAG
   script:
     - chmod og= $PRODUCT_ID_RSA
     - apk update && apk add openssh-client
