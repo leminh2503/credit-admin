@@ -101,9 +101,9 @@ build-docker:
   #  variables:
   #    DOCKER_HOST: tcp://docker:2375
   #    DOCKER_TLS_CERTDIR: ""
-  image: docker:20.10.16
+  image: docker
   services:
-    - docker:20.10.16-dind
+    - docker:dind
   before_script:
     - docker info
   rules:
