@@ -102,8 +102,6 @@ build-docker:
     - docker:dind
   before_script:
     - docker info
-  rules:
-    - <<: *run-on-default-branch
   only:
     - tags
   except:
@@ -116,8 +114,6 @@ build-docker:
 deploy:
   image: alpine:latest
   stage: deploy
-  rules:
-    - <<: *run-on-default-branch
   only:
     - tags
   except:
