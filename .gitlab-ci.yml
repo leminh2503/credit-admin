@@ -104,7 +104,31 @@ build-docker:
     - docker info
   rules:
     - <<: *run-on-default-branch
+  only:
+    - tags
+  except:
+    - branches
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $IMAGE_TAG .
     - docker push $IMAGE_TAG
+
+deploy:
+  image: alpine:latest
+  stage: deploy
+  rules:
+    - <<: *run-on-default-branch
+  only:
+    - tags
+  except:
+    - branches
+  script:
+    - chmod og= $PRODUCT_ID_RSA
+    - apk update && apk add openssh-client
+    - ssh -i $PRODUCT_ID_RSA -o StrictHostKeyChecking=no PRODUCT_SERVER_USER@$PRODUCT_SERVER_IP "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
+    - ssh -i $PRODUCT_ID_RSA -o StrictHostKeyChecking=no PRODUCT_SERVER_USER@$PRODUCT_SERVER_IP "docker pull $IMAGE_TAG"
+    - ssh -i $PRODUCT_ID_RSA -o StrictHostKeyChecking=no PRODUCT_SERVER_USER@$PRODUCT_SERVER_IP "docker container rm -f my-app || true"
+    - ssh -i $PRODUCT_ID_RSA -o StrictHostKeyChecking=no PRODUCT_SERVER_USER@$PRODUCT_SERVER_IP "docker run -d -p 3000:80 --name my-app $IMAGE_TAG"
+  environment:
+    name: production
+    url: http://172.16.4.112
