@@ -16,12 +16,6 @@ variables:
   CACHE_COMPRESSION_LEVEL: "fast"
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
 
-# Define when the pipeline will run
-workflow:
-  rules:
-    - if: "$CI_MERGE_REQUEST_IID" # Run pipelines on Merge Requests
-    - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH" # Run pipelines on main branch
-
 # YAML anchors
 .node_modules-cache: &node_modules-cache # Cache node_modules
   key:
@@ -49,9 +43,8 @@ workflow:
 .run-on-default-branch: &run-on-default-branch # Run job on main branch
   if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
 
-.run-on-product-tag:
-  &run-on-product-tag # Run job when create tag on main branch
-  if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TAG"
+.run-on-product-tag: &run-on-product-tag # Run job when create tag on main branch
+  if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TAG =~ /^v\\d+.\\d+.\\d+/"
 
 # Jobs
 install_dependencies:
