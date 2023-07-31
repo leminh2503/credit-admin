@@ -14,10 +14,12 @@ variables:
   FF_USE_FASTZIP: "true" # Fastzip is a performant archiver for cache/artifact archiving and extraction
   ARTIFACT_COMPRESSION_LEVEL: "fast"
   CACHE_COMPRESSION_LEVEL: "fast"
-  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+  SEND_MESSAGE_TO_SLACK: "curl -X POST -H 'Content-type: application/json' $SLACK_WEBHOOK_URL --data"
+  IMAGE_TAG: $CI_PROJECT_NAME:$CI_COMMIT_REF_NAME
   CONTAINER_NAME: $CI_PROJECT_NAME
   CONTAINER_EXPOSE_PORT: 80
   APP_DEFAULT_RUNNING_PORT: 3000
+  PRODUCT_SERVER_URL: http://172.16.4.123
 
 # YAML anchors
 .node_modules-cache: &node_modules-cache # Cache node_modules
@@ -37,6 +39,12 @@ variables:
 .run-on-product-tag: &run-on-product-tag # Run job when create tag on main branch
   if: "$CI_COMMIT_TAG =~ /^v\\d+.\\d+.\\d+/"
 
+.run-on-commit-message: &run-on-commit-message # Run job when commit message have `ci(deploy):` in its name
+  if: "$CI_COMMIT_TAG =~ /ci\\(deploy\\):"
+
+.run-on-file-change: &run-on-file-change # Run job when content in .ci changed
+  changes: ".ci"
+
 # Jobs
 install_dependencies:
   stage: install
@@ -46,6 +54,7 @@ install_dependencies:
   rules:
     - <<: *run-on-merge-request
     - <<: *run-on-default-branch
+    - <<: *run-on-product-tag
   script:
     - yarn bootstrap --cache-folder .yarn
 
@@ -56,6 +65,7 @@ code-test:
   rules:
     - <<: *run-on-merge-request
     - <<: *run-on-default-branch
+    - <<: *run-on-product-tag
   script:
     - yarn lint
     - yarn prettier
@@ -68,8 +78,18 @@ unit-test:
   rules:
     - <<: *run-on-merge-request
     - <<: *run-on-default-branch
+    - <<: *run-on-product-tag
   script:
     - yarn test
+
+#lint-commit:
+#  stage: test
+#  rules:
+#    - <<: *run-on-merge-request
+#    - <<: *run-on-default-branch
+#    - <<: *run-on-product-tag
+#  script:
+#    - echo "${CI_COMMIT_MESSAGE}" | yarn commitlint
 
 build:
   stage: build
@@ -77,17 +97,19 @@ build:
     - <<: *node_modules-cache
   rules:
     - <<: *run-on-default-branch
+    - <<: *run-on-product-tag
   script:
     - yarn build
 
 build-docker:
-  stage: deploy
+  stage: build
   image: docker
   services:
     - docker:dind
   before_script:
     - docker info
   rules:
+    - <<: *run-on-default-branch
     - <<: *run-on-product-tag
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -98,6 +120,7 @@ deploy:
   image: alpine:latest
   stage: deploy
   rules:
+    - <<: *run-on-default-branch
     - <<: *run-on-product-tag
   before_script:
     - echo $CI_PROJECT_NAME
@@ -109,6 +132,7 @@ deploy:
     - ssh -i $PRODUCT_ID_RSA -o StrictHostKeyChecking=no $PRODUCT_SERVER_USER@$PRODUCT_SERVER_IP "docker pull $IMAGE_TAG"
     - ssh -i $PRODUCT_ID_RSA -o StrictHostKeyChecking=no $PRODUCT_SERVER_USER@$PRODUCT_SERVER_IP "docker container rm -f $CONTAINER_NAME || true"
     - ssh -i $PRODUCT_ID_RSA -o StrictHostKeyChecking=no $PRODUCT_SERVER_USER@$PRODUCT_SERVER_IP "docker run -d -p $CONTAINER_EXPOSE_PORT:$APP_DEFAULT_RUNNING_PORT --name $CONTAINER_NAME $IMAGE_TAG"
+    - ${SEND_MESSAGE_TO_SLACK} '{"text":"Deploy success!"}'
   environment:
     name: production
-    url: http://172.16.4.112
+    url: $PRODUCT_SERVER_URL
