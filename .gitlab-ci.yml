@@ -127,7 +127,7 @@ deploy:
     - echo CI_PROJECT_PATH
   script:
     - chmod og= $PRODUCT_ID_RSA
-    - apk update && apk add openssh-client
+    - apk update && apk add openssh-client && apk add curl
     - ssh -i $PRODUCT_ID_RSA -o StrictHostKeyChecking=no $PRODUCT_SERVER_USER@$PRODUCT_SERVER_IP "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
     - ssh -i $PRODUCT_ID_RSA -o StrictHostKeyChecking=no $PRODUCT_SERVER_USER@$PRODUCT_SERVER_IP "docker pull $IMAGE_TAG"
     - ssh -i $PRODUCT_ID_RSA -o StrictHostKeyChecking=no $PRODUCT_SERVER_USER@$PRODUCT_SERVER_IP "docker container rm -f $CONTAINER_NAME || true"
