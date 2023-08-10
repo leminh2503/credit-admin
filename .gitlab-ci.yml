@@ -2,7 +2,8 @@
 stages:
   - install
   - test
-  - build
+  - build-code
+  - build-docker
   - deploy
 
 # Setup default image for job
@@ -70,17 +71,18 @@ code-test:
     - yarn lint
     - yarn prettier
     - yarn check-types
-
-unit-test:
-  stage: test
-  cache:
-    - <<: *node_modules-cache
-  rules:
-    - <<: *run-on-merge-request
-    - <<: *run-on-default-branch
-    - <<: *run-on-product-tag
-  script:
     - yarn test
+
+#unit-test:
+#  stage: test
+#  cache:
+#    - <<: *node_modules-cache
+#  rules:
+#    - <<: *run-on-merge-request
+#    - <<: *run-on-default-branch
+#    - <<: *run-on-product-tag
+#  script:
+#    - yarn test
 
 #lint-commit:
 #  stage: test
@@ -92,7 +94,7 @@ unit-test:
 #    - echo "${CI_COMMIT_MESSAGE}" | yarn commitlint
 
 build:
-  stage: build
+  stage: build-code
   cache:
     - <<: *node_modules-cache
   rules:
@@ -102,7 +104,7 @@ build:
     - yarn build
 
 build-docker:
-  stage: build
+  stage: build-docker
   image: docker
   services:
     - docker:dind

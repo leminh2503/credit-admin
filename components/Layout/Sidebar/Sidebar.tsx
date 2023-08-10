@@ -113,7 +113,7 @@ export default function Sidebar(): JSX.Element {
 
       <div className={classNames("sidebar")}>
         <div className="logo-container">
-          <Image src="/img/logo/logo.png" alt="logo" width={20} height={20} />
+          <Image src="/img/logo.png" alt="logo" width={20} height={20} />
         </div>
         <RenderMenu />
         <div
