@@ -33,6 +33,7 @@ const LANGUAGE = {
 };
 
 // FIREBASE
+// Also update firebase-messaging-sw.js file if update this value
 const FIREBASE = {
   apiKey: "AIzaSyCKkv7LL9tO5D0U4Cnfi3CM-OFpuyseq_M",
   authDomain: "nextjs-core.firebaseapp.com",

@@ -1,5 +1,31 @@
 {
-  "posts": [{"id": 1, "title": "json-server", "author": "typicode"}],
-  "comments": [{"id": 1, "body": "some comment", "postId": 1}],
-  "profile": {"name": "typicode"}
+  "users": {
+    "success": true,
+    "errorCode": "000000",
+    "message": null,
+    "data": [
+      {
+        "id": 1,
+        "email": "admin@tinasoft.com",
+        "fullName": "Admin",
+        "phoneNumber": "1234567890",
+        "address": ""
+      }
+    ]
+  },
+  "profile": {
+    "email": "admin@tinasoft.com",
+    "password": "12345678",
+    "apiId": "v1"
+  },
+  "apiAuthLogin": {
+    "email": "admin@tinasoft.com",
+    "password": "12345678"
+  },
+  "me": {
+    "success": true,
+    "errorCode": "000000",
+    "message": null,
+    "data": {"role": {"id": 1}, "fullName": "Admin"}
+  }
 }

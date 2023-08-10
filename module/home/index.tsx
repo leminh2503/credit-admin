@@ -66,9 +66,9 @@ export function Home(): JSX.Element {
       key: "avatar",
       align: "center",
       width: 80,
-      render: (url) => (
+      render: () => (
         <div>
-          <Image src={url} fallback="img/logo.png" />
+          <Image src="img/logo.png" />
         </div>
       ),
     },
@@ -95,24 +95,6 @@ export function Home(): JSX.Element {
       dataIndex: "address",
       key: "address",
       align: "center",
-    },
-    {
-      title: "Quản lý",
-      dataIndex: "address",
-      key: "address",
-      align: "center",
-    },
-    {
-      title: "Chức vụ",
-      dataIndex: "address",
-      key: "address",
-      align: "center",
-    },
-    {
-      title: "Trạng thái",
-      dataIndex: "address",
-      align: "center",
-      key: "address",
     },
     {
       title: "Hành động",
