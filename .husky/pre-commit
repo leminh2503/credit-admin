@@ -2,7 +2,7 @@
 . "$(dirname "$0")/_/husky.sh"
 
 # Prevent run when merge code
-git rev-parse -q --verify MERGE_HEAD && true
+git rev-parse -q --verify MERGE_HEAD && exit 0
 
 echo '👷 Styling, testing your project before committing'
 
