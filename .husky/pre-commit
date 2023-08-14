@@ -1,6 +1,9 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+# Prevent run when merge code
+git rev-parse -q --verify MERGE_HEAD && false
+
 echo '👷 Styling, testing your project before committing'
 
 # Check Prettier standards
