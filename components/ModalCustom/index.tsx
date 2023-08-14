@@ -15,7 +15,7 @@ export function ModalCustom(props: ModalCustomProps): JSX.Element {
     <Modal
       centered
       title={title}
-      visible={isModalVisible}
+      open={isModalVisible}
       onOk={handleOk}
       onCancel={handleCancel}
       className="modal-ant"

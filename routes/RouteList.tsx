@@ -15,19 +15,6 @@ export interface IRoute {
 }
 
 const routes: IRoute[] = [
-  // {
-  //   path: Config.PATHNAME.LOGIN,
-  //   name: "Auth",
-  //   isAuth: true,
-  // },
-  // {
-  //   path: "/approve-news",
-  //   name: "sidebar.approve_new",
-  //   role: ["admin"],
-  //   icon: "usd_coin_usdc",
-  //   isPrivate: true,
-  //   isSidebar: true,
-  // },
   {
     path: "/",
     name: "Home",
