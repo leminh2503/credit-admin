@@ -8,6 +8,7 @@ import {toggleMenu} from "@app/redux/slices/MenuSlice";
 import {useQuery} from "react-query";
 import {IUserLogin} from "@app/types";
 import ApiUser from "@app/api/ApiUser";
+import "./index.scss";
 
 /**
  *

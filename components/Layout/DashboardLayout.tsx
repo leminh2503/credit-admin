@@ -1,19 +1,17 @@
 import React from "react";
-import Sidebar from "./Sidebar/Sidebar";
-import Navbar from "./Navbar/Navbar";
-import Footer from "./Footer/Footer";
-import Content from "./Content/Content";
-import BottomNavigator from "./BottomNavigator/BottomNavigator";
-import Main from "./Main/Main";
+import Sidebar from "./Sidebar";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import Content from "./Content";
+import BottomNavigator from "./BottomNavigator";
+import Main from "./Main";
 import Config from "../../config";
-
-interface DashboardLayoutProps {
-  children: React.ReactNode;
-}
+import {CommonReactProps} from "@app/types";
+import "./index.scss";
 
 export default function DashboardLayout({
   children,
-}: DashboardLayoutProps): JSX.Element {
+}: CommonReactProps): JSX.Element {
   const {useSidebar, useNavbar, useFooter, useBottomNavigator} =
     Config.LAYOUT_CONFIG;
   return (

@@ -37,7 +37,6 @@
     "dayjs": "^1.11.9",
     "firebase": "^9.23.0",
     "formik": "^2.4.2",
-    "formik-antd": "^2.0.4",
     "i18next": "^23.2.5",
     "lodash.tostring": "^4.1.4",
     "next": "^13.4.7",

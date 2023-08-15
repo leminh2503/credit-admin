@@ -1,6 +1,6 @@
 import "./index.scss";
 import {Formik} from "formik";
-import {Form, Image, Row} from "antd";
+import {Form, Image, Row, Input} from "antd";
 import {ButtonSubmit} from "@app/components/ButtonSubmit";
 import {useMutation} from "react-query";
 import ApiUser from "@app/api/ApiUser";
@@ -13,7 +13,6 @@ import {
   getValidationSchema,
   ILoginForm,
 } from "@app/module/login/NewPassword/form-config";
-import {Input} from "formik-antd";
 import FormItem from "@app/components/FormItem";
 
 interface SignInProps {
@@ -52,7 +51,12 @@ export function SignIn({changeTab}: SignInProps): JSX.Element {
       validationSchema={getValidationSchema()}
       onSubmit={handleLogin}
     >
-      {({isSubmitting, handleSubmit}): JSX.Element => (
+      {({
+        isSubmitting,
+        handleSubmit,
+        handleChange,
+        handleBlur,
+      }): JSX.Element => (
         <div className="container-sign-in">
           <Form onFinish={handleSubmit} className="container-sign-in">
             <div className="header-wrapper">
@@ -64,7 +68,12 @@ export function SignIn({changeTab}: SignInProps): JSX.Element {
               <div className="login-text">Đăng nhập</div>
             </div>
             <FormItem name="email" label="Tài khoản" required>
-              <Input name="email" placeholder="Nhập tài khoản" />
+              <Input
+                name="email"
+                placeholder="Nhập tài khoản"
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
             </FormItem>
             <FormItem
               className="pt-20"
@@ -72,7 +81,12 @@ export function SignIn({changeTab}: SignInProps): JSX.Element {
               label="Mật khẩu"
               required
             >
-              <Input.Password name="password" placeholder="Nhập mật khẩu" />
+              <Input.Password
+                name="password"
+                placeholder="Nhập mật khẩu"
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
             </FormItem>
             <Row
               role="button"

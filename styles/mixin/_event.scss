@@ -6,15 +6,3 @@
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
 }
-
-.hover-pointer {
-  &:hover {
-    cursor: pointer !important;
-  }
-}
-
-.hover-grab {
-  &:hover {
-    cursor: grab !important;
-  }
-}

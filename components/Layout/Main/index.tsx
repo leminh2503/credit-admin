@@ -3,12 +3,10 @@ import classNames from "classnames";
 import {useSelector} from "react-redux";
 import Config from "../../../config";
 import {IRootState} from "../../../redux/store";
+import "./index.scss";
+import {CommonReactProps} from "@app/types";
 
-interface MainProps {
-  children: React.ReactNode;
-}
-
-export default function Main({children}: MainProps): JSX.Element {
+export default function Main({children}: CommonReactProps): JSX.Element {
   const isOpen = useSelector((state: IRootState) => state.menu.isOpen);
 
   const {useSidebar, useNavbar} = Config.LAYOUT_CONFIG;

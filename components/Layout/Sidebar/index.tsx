@@ -9,6 +9,7 @@ import ApiUser from "../../../api/ApiUser";
 import RouteList from "../../../routes/RouteList";
 import {logoutUser} from "@app/redux/slices/UserSlice";
 import {IAccountRole} from "@app/types";
+import "./index.scss";
 
 const RenderMenu = React.memo(() => {
   const router = useRouter();

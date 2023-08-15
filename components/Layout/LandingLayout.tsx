@@ -1,11 +1,9 @@
 import React from "react";
-
-interface LandingLayoutProps {
-  children: React.ReactNode;
-}
+import {CommonReactProps} from "@app/types";
+import "./index.scss";
 
 export default function LandingLayout({
   children,
-}: LandingLayoutProps): JSX.Element {
+}: CommonReactProps): JSX.Element {
   return <div className="wrapper">{children}</div>;
 }
