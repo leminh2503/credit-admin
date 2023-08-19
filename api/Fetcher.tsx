@@ -57,7 +57,7 @@ function logout(): void {
     .purge()
     .then(() => {
       store.dispatch(logoutUser());
-      window.location.href = Config.PATHNAME.LOGIN;
+      window.location.assign(Config.PATHNAME.LOGIN);
     })
     .catch(() => {
       window.alert("Trình duyệt bị lỗi. Xóa Cookie trình duyệt và thử lại");
@@ -87,33 +87,25 @@ function confirmLogout(
 }
 
 function displayError(dataError: IDataError): void {
-  try {
-    const {errorCode} = dataError;
-    let errorMessage;
+  const {errorCode} = dataError;
+  let errorMessage;
 
-    const error = ListErrorMessage.find((dt) => dt.error_code === errorCode);
-    if (error) {
-      errorMessage = error.description;
-    } else {
-      errorMessage = dataError.errorMessage ?? "Somethings Wrong";
-    }
-
-    notification.error({
-      message: "Something is wrong. Please try again",
-      description: errorMessage,
-      duration: 3,
-    });
-  } catch (e) {
-    notification.error({
-      message: "Something is wrong. Please try again",
-      description: toString(e),
-      duration: 3,
-    });
+  const error = ListErrorMessage.find((dt) => dt.error_code === errorCode);
+  if (error) {
+    errorMessage = error.description;
+  } else {
+    errorMessage = dataError.errorMessage ?? "Somethings Wrong";
   }
+
+  notification.error({
+    message: "Something is wrong. Please try again",
+    description: errorMessage,
+    duration: 3,
+  });
 }
 
 function handleRefreshToken() {
-  return new Promise<boolean>((resolve) => {
+  return new Promise<void>((resolve, reject) => {
     fetcher<IRefreshToken>(
       {
         url: "/auth/refresh-token",
@@ -124,10 +116,10 @@ function handleRefreshToken() {
     )
       .then((res) => {
         store.dispatch(loginUser(res));
-        resolve(true);
+        resolve();
       })
       .catch(() => {
-        resolve(false);
+        reject();
       });
   });
 }
@@ -174,7 +166,7 @@ function returnResponseData<T>(
   resolve: (value: T | PromiseLike<T>) => void,
   reject: (reason?: IDataError) => void
 ) {
-  if (response.data.success) {
+  if (response.data?.success) {
     if (response.data.data === undefined) {
       const dataEmpty: IDataError = {
         errorCode: "ERROR???",
@@ -239,28 +231,22 @@ async function processOtherCase<T, E>(
   };
   if (dataError?.errorCode === "AUTH000221") {
     try {
-      const checkRefresh = await handleRefreshToken();
-      if (checkRefresh) {
-        const data = await retryFetcher(config, options);
-        resolve(data);
-      } else {
-        confirmLogout(
-          "Phiên đăng nhập hết hạn",
-          "Vui lòng đăng nhập lại!",
-          false
-        );
-      }
+      await handleRefreshToken();
+      const data = await retryFetcher(config, options);
+      resolve(data);
     } catch (error) {
       confirmLogout(
         "Phiên đăng nhập hết hạn",
         "Vui lòng đăng nhập lại!",
         false
       );
+      reject(dataError);
     }
     return;
   }
   if (dataError?.errorCode === "AUTH000220") {
     confirmLogout("Phiên đăng nhập hết hạn", "Vui lòng đăng nhập lại!", true);
+    reject(dataError);
     return;
   }
   if (dataError?.errorCode === "JWT000201") {
@@ -269,6 +255,7 @@ async function processOtherCase<T, E>(
       "Vui lòng đăng nhập để sử dụng chức năng này!",
       false
     );
+    reject(dataError);
     return;
   }
   if (defaultOptions.displayError) {
@@ -286,26 +273,36 @@ function returnErrorData(
     // Axios error
     const somethingsWrong: IDataError = {
       errorCode: "ERROR???",
-      errorMessage: "Somethings Wrong",
+      errorMessage: "Something is wrong",
     };
 
-    const dataError: IDataError =
-      (error?.response?.data as IDataError) ?? somethingsWrong;
+    let dataError: IDataError = somethingsWrong;
+    if (error?.response?.data) {
+      dataError = {
+        errorCode: error?.response?.data.errorCode,
+        errorMessage: error?.response?.data.message,
+      };
+    }
 
     if (dataError?.errorCode === "AUTH3001.NotAuthenticated") {
       logout();
     } else if (defaultOptions.displayError) {
       displayError(dataError);
     }
-  } else {
-    // Native error
-    notification.error({
-      message: "Something is wrong. Please try again",
-      description: toString(error),
-    });
+
+    return reject(dataError);
   }
 
-  return reject(error);
+  // Native error
+  notification.error({
+    message: "Something is wrong. Please try again",
+    description: toString(error),
+  });
+
+  return reject({
+    errorCode: "NATIVE_ERROR",
+    errorMessage: "Somethings is wrong",
+  });
 }
 
 export async function fetcher<T>(
