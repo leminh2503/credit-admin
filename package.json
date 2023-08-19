@@ -24,7 +24,7 @@
     "proxy": "node scripts/proxy/index.js -p 5000 -t https://google.com",
     "analyze": "cross-env ANALYZE=true next build",
     "prepare": "husky install",
-    "test": "jest",
+    "test": "jest --coverage",
     "json-server": "json-server --watch scripts/json-server/db.json --port 3002 --routes scripts/json-server/routes.json --middlewares scripts/json-server/middleware.js "
   },
   "dependencies": {
