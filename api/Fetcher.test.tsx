@@ -27,25 +27,25 @@ delete window.location;
 window.location = {assign: jest.fn()};
 
 // Mock config
-jest.mock("../config", () => {
-  // Grab original
-  const originalModule = jest.requireActual("../config");
-
-  // Return original but override some values
-  return {
-    ...originalModule,
-    STORE_NAME: "state",
-    NETWORK_CONFIG: {
-      DISPLAY_ERROR: true,
-      USE_TOKEN: true,
-      WITH_METADATA: false,
-    },
-    PATHNAME: {
-      HOME: "/",
-      LOGIN: "/login",
-    },
-  };
-});
+// jest.mock("../config", () => {
+//   // Grab original
+//   const originalModule = jest.requireActual("../config");
+//
+//   // Return original but override some values
+//   return {
+//     ...originalModule,
+//     STORE_NAME: "state",
+//     NETWORK_CONFIG: {
+//       DISPLAY_ERROR: true,
+//       USE_TOKEN: true,
+//       WITH_METADATA: false,
+//     },
+//     PATHNAME: {
+//       HOME: "/",
+//       LOGIN: "/login",
+//     },
+//   };
+// });
 
 describe("test fetcher", () => {
   beforeEach(() => {
