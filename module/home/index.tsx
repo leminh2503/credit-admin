@@ -1,129 +1,79 @@
 import "./index.scss";
-import {Button, Image, Modal, Table} from "antd";
-import type {ColumnsType} from "antd/es/table";
-import React, {useEffect, useState} from "react";
-import ApiUser from "@app/api/ApiUser";
-import {IUserLogin} from "@app/types";
-import {useQuery} from "react-query";
-import {ModalInfo} from "@app/module/home/ModalConfirm";
+import React from "react";
+import {Button, Col, Image, Row} from "antd";
+import {DoubleLeftOutlined} from "@ant-design/icons";
 
 export function Home(): JSX.Element {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const showModal = (): void => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = (): void => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = (): void => {
-    setIsModalVisible(false);
-  };
-
-  const getUserAccount = (): Promise<IUserLogin[]> => {
-    return ApiUser.getUserAccount({pageSize: 30, pageNumber: 1});
-  };
-
-  const dataUserAccount = useQuery("listUserAccount", getUserAccount);
-
-  useEffect(() => {
-    dataUserAccount.refetch();
-  }, []);
-
-  const handleUserAction = (record: IUserLogin): void => {
-    Modal.confirm({
-      title: `Bạn có muốn khoá tài khoản ${record.email}?`,
-      content: `Taì khoản ${record.email} sẽ bị khoá`,
-      okType: "primary",
-      cancelText: "Huỷ",
-      okText: "Khoá",
-      onOk: () => {
-        // todo
-      },
-    });
-  };
-
-  const onRow = () => {
-    return {
-      onDoubleClick: (): void => {
-        showModal();
-      },
-    };
-  };
-
-  const columns: ColumnsType<IUserLogin> = [
-    {
-      title: "STT",
-      dataIndex: "index",
-      key: "index",
-      align: "center",
-      render: (_, record, index) => <div>{index + 1}</div>,
-    },
-    {
-      title: "Ảnh",
-      key: "avatar",
-      align: "center",
-      width: 80,
-      render: () => (
-        <div>
-          <Image src="img/logo.png" />
-        </div>
-      ),
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-      align: "center",
-    },
-    {
-      title: "Họ & Tên",
-      dataIndex: "fullName",
-      key: "fullName",
-      align: "center",
-    },
-    {
-      title: "Số điện thoại",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
-      align: "center",
-    },
-    {
-      title: "Địa chỉ",
-      dataIndex: "address",
-      key: "address",
-      align: "center",
-    },
-    {
-      title: "Hành động",
-      key: "action",
-      align: "center",
-      render: (_, record) => (
-        <Button
-          className="mr-1"
-          onClick={(): void => {
-            handleUserAction(record);
-          }}
-        />
-      ),
-    },
-  ];
-
+  const handleClick = () => {};
   return (
-    <>
-      <Table
-        columns={columns}
-        dataSource={dataUserAccount.data}
-        bordered
-        onRow={onRow}
-      />
-      <ModalInfo
-        isModalVisible={isModalVisible}
-        handleOk={handleOk}
-        handleCancel={handleCancel}
-      />
-    </>
+    <div className="bg-gray-100">
+      <div className="flex flex-col items-center justify-center">
+        <div className="bg-red-600 w-full p-4 text-white flex justify-between items-center">
+          <h1 className="text-xl">Xin chào, Lee</h1>
+          <div className="flex-col items-center">
+            <span className="mr-2">Tổng đài CSKH</span>
+            <div>1900999953</div>
+          </div>
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+          <div className="bg-gray-200 text-center py-2 mb-4 rounded">
+            079******98 đã rút 123.000.000 đ
+          </div>
+          <Image
+            src="img/eximbank-1.png"
+            alt="Loan Banner"
+            className="w-full mb-4"
+          />
+          <Row className="button-container">
+            <Button
+              className="button"
+              type="primary"
+              htmlType="submit"
+              onClick={handleClick}
+            >
+              Đăng ký khoản vay
+            </Button>
+          </Row>
+          <div className="space-y-4 mt-4">
+            <button className="w-full border-primary color-primary py-2 px-4 rounded flex items-center justify-between">
+              <span>Thủ tục vay nhanh chóng, đơn giản</span>
+              <DoubleLeftOutlined />
+            </button>
+            <button className="w-full border-primary color-primary py-2 px-4 rounded flex items-center justify-between">
+              <span>Hạn mức vay lên đến 1 tỷ</span>
+              <DoubleLeftOutlined />
+            </button>
+            <button className="w-full border-primary color-primary py-2 px-4 rounded flex items-center justify-between">
+              <span>Nhận tiền chỉ sau 30 phút làm hồ sơ</span>
+              <DoubleLeftOutlined />
+            </button>
+          </div>
+          <Image
+            src="img/eximbank-2.jpg"
+            alt="Loan Banner"
+            className="w-full mt-4"
+          />
+          <div className="w-full text-center">
+            <Image
+              src="img/congthuong.png"
+              className="mt-4"
+              alt="Eximbank logo"
+              width={100}
+            />
+          </div>
+          <Col>
+            <h3>EXIMBANK</h3>
+            <div>
+              <b>Địa chỉ:</b>
+              <span>
+                Tầng 8 - Vincom Center, 72 Lê Thánh Tôn và 45A Lý Tự Trọng,
+                P.Bến Nghé, Q.1, TP.HCM
+              </span>
+            </div>
+            <div>® Bản quyền thuộc về Eximbank</div>
+          </Col>
+        </div>
+      </div>
+    </div>
   );
 }

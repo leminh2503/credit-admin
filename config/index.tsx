@@ -15,14 +15,14 @@ const NETWORK_CONFIG = {
 
 // PATHNAME
 const PATHNAME = {
-  HOME: "/",
+  HOME: "/home",
   LOGIN: "/login",
 };
 
 // LAYOUT
 const LAYOUT_CONFIG = {
-  useSidebar: true,
-  useNavbar: true,
+  useSidebar: false,
+  useNavbar: false,
   useFooter: true,
   useBottomNavigator: true,
 };

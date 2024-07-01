@@ -1,6 +1,6 @@
 import "./index.scss";
 import {Formik} from "formik";
-import {Form, Image, Row, Input} from "antd";
+import {Form, Image, Row, Input, Col} from "antd";
 import {ButtonSubmit} from "@app/components/ButtonSubmit";
 import {useMutation} from "react-query";
 import ApiUser from "@app/api/ApiUser";
@@ -13,7 +13,6 @@ import {
   getValidationSchema,
   ILoginForm,
 } from "@app/module/login/NewPassword/form-config";
-import FormItem from "@app/components/FormItem";
 
 interface SignInProps {
   changeTab: (tab: string) => void;
@@ -25,23 +24,9 @@ export function SignIn({changeTab}: SignInProps): JSX.Element {
 
   const loginMutation = useMutation(ApiUser.login);
 
-  const handleLogin = (
-    values: ILoginForm,
-    {setSubmitting}: {setSubmitting: (isSubmitting: boolean) => void}
-  ): void => {
-    loginMutation.mutate(
-      {email: values.email, password: values.password},
-      {
-        onSuccess: (res: IAccountInfo) => {
-          dispatch(loginUser({...res}));
-          router.push(Config.PATHNAME.HOME);
-          setSubmitting(false);
-        },
-        onError: () => {
-          setSubmitting(false);
-        },
-      }
-    );
+  const handleLogin = (): void => {
+    console.log("12312312----");
+    router.push(Config.PATHNAME.HOME);
   };
   return (
     <Formik
@@ -62,46 +47,58 @@ export function SignIn({changeTab}: SignInProps): JSX.Element {
             <div className="header-wrapper">
               <Image
                 className="login-image"
-                src="img/logo.png"
+                src="img/eximbank-logo.jpeg"
                 preview={false}
               />
-              <div className="login-text">Đăng nhập</div>
+              <div className="login-text">
+                Nhập tài khoản và mật khẩu để đăng nhập
+              </div>
             </div>
-            <FormItem name="email" label="Tài khoản" required>
-              <Input
-                name="email"
-                placeholder="Nhập tài khoản"
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </FormItem>
-            <FormItem
-              className="pt-20"
+            <Input
+              name="email"
+              className="mt-4"
+              placeholder="Nhập tài khoản"
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+
+            <Input.Password
+              className="mt-4"
               name="password"
-              label="Mật khẩu"
-              required
-            >
-              <Input.Password
-                name="password"
-                placeholder="Nhập mật khẩu"
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </FormItem>
-            <Row
-              role="button"
-              tabIndex={0}
-              className="forgot-pass pt-20"
-              onClick={(): void => changeTab("forgotPassword")}
-            >
-              Quên mật khẩu?
-            </Row>
+              placeholder="Nhập mật khẩu"
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
 
             <ButtonSubmit
               label="Đăng nhập"
               isSubmitting={isSubmitting}
               classRow="pt-20"
+              handleClick={handleLogin}
             />
+
+            <Row
+              role="button"
+              tabIndex={0}
+              className="forgot-pass pt-20"
+              onClick={(): void => changeTab("signUp")}
+            >
+              <div>Chưa có tài khoản? </div>
+              <div>Đăng Ký</div>
+            </Row>
+            <Image src="img/congthuong.png" width={100} className="mt-2" />
+            <Col>
+              <h3>EXIMBANK</h3>
+              <div>
+                <b>Địa chỉ:</b>
+                <span>
+                  Tầng 8 - Vincom Center, 72 Lê Thánh Tôn và 45A Lý Tự Trọng,
+                  P.Bến Nghé, Q.1, TP.HCM
+                </span>
+              </div>
+              <div>® Bản quyền thuộc về Eximbank</div>
+            </Col>
+            <Image src="img/vayvon.jpg" width="100%" className="mt-4" />
           </Form>
         </div>
       )}

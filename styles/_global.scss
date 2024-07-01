@@ -93,3 +93,16 @@ $text-color: #000000;
 $white-color: #ffffff;
 $red-color: #cb2131;
 $blue-color: #0092ff;
+$primary-color: #0092ff;
+
+.color-primary {
+  color: $primary-color;
+}
+
+.bg-primary {
+  background-color: $primary-color;
+}
+
+.border-primary {
+  border: $primary-color 1px solid;
+}

@@ -1,7 +1,7 @@
 import "./index.scss";
 import React, {useState} from "react";
 import {NewPassword} from "@app/module/login/NewPassword";
-import {ForgotPassword} from "@app/module/login/ForgotPassword";
+import {SignUp} from "module/login/SignUp";
 import {VerifyPassword} from "@app/module/login/VerifyPassword";
 import {SignIn} from "@app/module/login/SignIn";
 
@@ -18,8 +18,8 @@ export function Login(): JSX.Element {
     signIn: {
       component: SignIn,
     },
-    forgotPassword: {
-      component: ForgotPassword,
+    signUp: {
+      component: SignUp,
     },
     verifyPassword: {
       component: VerifyPassword,
