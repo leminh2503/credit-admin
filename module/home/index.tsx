@@ -2,7 +2,6 @@ import "./index.scss";
 import {Button, Input, Modal, Popconfirm, Switch, Table, Tag} from "antd";
 import type {ColumnsType} from "antd/es/table";
 import React, {useState} from "react";
-import {ModalInfo} from "@app/module/home/ModalConfirm";
 import {DeleteOutlined} from "@ant-design/icons";
 import {useRouter} from "next/router";
 
@@ -52,28 +51,19 @@ const data = [
 export function Home(): JSX.Element {
   const router = useRouter();
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
   const [openModalChangePassword, setOpenModalChangePassword] = useState(false);
 
   const toggleModalChangePassword = () => {
     setOpenModalChangePassword(!openModalChangePassword);
   };
-  const showModal = (): void => {
-    setIsModalVisible(true);
-  };
 
-  const handleOk = (): void => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = (): void => {
-    setIsModalVisible(false);
+  const handleOk = () => {
+    setOpenModalChangePassword(!openModalChangePassword);
   };
   const onRow = () => {
     return {
       onDoubleClick: (): void => {
-        showModal();
+        // showModal();
       },
     };
   };
@@ -123,14 +113,12 @@ export function Home(): JSX.Element {
       title: "Hồ sơ",
       key: "address",
       align: "center",
-      render: () => {
-        return (
-          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-          <a onClick={handleNavigateDetail} className="color-primary">
-            Xem chi tiết
-          </a>
-        );
-      },
+      render: () => (
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+        <a onClick={handleNavigateDetail} className="color-primary">
+          Xem chi tiết
+        </a>
+      ),
     },
     {
       title: "Chặn đăng nhập",
@@ -195,11 +183,6 @@ export function Home(): JSX.Element {
   return (
     <>
       <Table columns={columns} dataSource={data} bordered onRow={onRow} />
-      <ModalInfo
-        isModalVisible={isModalVisible}
-        handleOk={handleOk}
-        handleCancel={handleCancel}
-      />
 
       <Modal
         title="Đổi mật khẩu khách hàng"
