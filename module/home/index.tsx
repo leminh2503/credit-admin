@@ -1,5 +1,5 @@
 import "./index.scss";
-import {Button, Modal, Switch, Table, Tag} from "antd";
+import {Button, Input, Modal, Popconfirm, Switch, Table, Tag} from "antd";
 import type {ColumnsType} from "antd/es/table";
 import React, {useState} from "react";
 import {IUserLogin} from "@app/types";
@@ -55,6 +55,11 @@ export function Home(): JSX.Element {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const [openModalChangePassword, setOpenModalChangePassword] = useState(false);
+
+  const toggleModalChangePassword = () => {
+    setOpenModalChangePassword(!openModalChangePassword);
+  };
   const showModal = (): void => {
     setIsModalVisible(true);
   };
@@ -158,7 +163,11 @@ export function Home(): JSX.Element {
       key: "address",
       align: "center",
       render: (_, record) => {
-        return <a className="color-primary">Đổi mật khẩu khách hàng</a>;
+        return (
+          <a onClick={toggleModalChangePassword} className="color-primary">
+            Đổi mật khẩu khách hàng
+          </a>
+        );
       },
     },
     {
@@ -167,9 +176,18 @@ export function Home(): JSX.Element {
       align: "center",
       render: (_, record) => {
         return (
-          <Button danger icon={<DeleteOutlined />}>
-            Delete
-          </Button>
+          <Popconfirm
+            title="Xoá khách hàng"
+            description="Bạn có chắc chắn muốn xoá khách hàng?"
+            onConfirm={() => {}}
+            onCancel={() => {}}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button danger icon={<DeleteOutlined />}>
+              Delete
+            </Button>
+          </Popconfirm>
         );
       },
     },
@@ -191,6 +209,20 @@ export function Home(): JSX.Element {
         handleOk={handleOk}
         handleCancel={handleCancel}
       />
+
+      <Modal
+        title="Đổi mật khẩu khách hàng"
+        open={openModalChangePassword}
+        onOk={handleOk}
+        onCancel={() => toggleModalChangePassword()}
+      >
+        <Input className="mt-4" size="large" placeholder="Nhập mật khẩu mới" />
+        <Input
+          className="mt-4"
+          size="large"
+          placeholder="Nhập lại mật khẩu mới"
+        />
+      </Modal>
     </>
   );
 }
