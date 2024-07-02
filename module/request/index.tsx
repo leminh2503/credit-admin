@@ -9,7 +9,6 @@ export function Request() {
   const [input, setInput] = useState("50,000,000");
   const [selected, setSelected] = useState("12");
   const handleChange = (e) => {
-    console.log("rerasdfsa", e);
     setSelected(e);
   };
 

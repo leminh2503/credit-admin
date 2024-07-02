@@ -5,6 +5,7 @@ import React, {useState} from "react";
 import {IUserLogin} from "@app/types";
 import {ModalInfo} from "@app/module/home/ModalConfirm";
 import {DeleteOutlined} from "@ant-design/icons";
+import {useRouter} from "next/router";
 
 const data = [
   {
@@ -50,6 +51,8 @@ const data = [
 ];
 
 export function Home(): JSX.Element {
+  const router = useRouter();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = (): void => {
@@ -131,7 +134,11 @@ export function Home(): JSX.Element {
       key: "address",
       align: "center",
       render: (_, record) => {
-        return <a className="color-primary">Xem chi tiết</a>;
+        return (
+          <a onClick={handleNavigateDetail} className="color-primary">
+            Xem chi tiết
+          </a>
+        );
       },
     },
     {
@@ -170,6 +177,10 @@ export function Home(): JSX.Element {
 
   const onChangeSwitch = (checked: boolean) => {
     console.log(`switch to ${checked}`);
+  };
+
+  const handleNavigateDetail = () => {
+    router.push("/profile");
   };
 
   return (
