@@ -1,15 +1,17 @@
 import React, {useState} from "react";
-import {Button, Image, Input, Modal, Row, Switch, Tag} from "antd";
+import {Button, Image, Input, Modal, Switch, Tag} from "antd";
 
 export function Profile() {
   const [openModalWallet, setOpenModalWallet] = useState(false);
   const [type, setType] = useState(1);
   const toggleModal = (tp?: number) => {
-    setType(tp);
+    setType(tp as any);
     setOpenModalWallet(!openModalWallet);
   };
 
-  const handleOk = () => {};
+  const handleOk = () => {
+    console.log("123");
+  };
   return (
     <div className="mx-auto p-4">
       <div className="grid grid-cols-12 gap-4">
@@ -133,8 +135,8 @@ export function Profile() {
               className="w-full h-auto"
             />
             <div className="flex justify-between mt-2">
-              <button className="bg-gray-300 px-4 py-1 rounded">Trước</button>
-              <button className="bg-gray-300 px-4 py-1 rounded">Sau</button>
+              <Button className="bg-gray-300 px-4 py-1 rounded">Trước</Button>
+              <Button className="bg-gray-300 px-4 py-1 rounded">Sau</Button>
             </div>
           </div>
         </div>
@@ -167,12 +169,12 @@ export function Profile() {
             <p className="w-1/2">OTP</p>
           </div>
           <div className="flex items-center justify-between mt-2">
-            <button className="bg-blue-500 text-white px-4 py-2 rounded mt-4">
+            <Button className="bg-blue-500 text-white px-4 py-2 rounded mt-4">
               Xem hợp đồng
-            </button>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded mt-4">
+            </Button>
+            <Button className="bg-blue-500 text-white px-4 py-2 rounded mt-4">
               Cập nhật
-            </button>
+            </Button>
           </div>
         </div>
         <div className="col-span-12 md:col-span-4 bg-white p-4 rounded-lg shadow">

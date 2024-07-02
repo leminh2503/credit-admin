@@ -2,6 +2,7 @@ import React from "react";
 import "./index.scss";
 import {Button, Image, Row} from "antd";
 import {DownloadOutlined, EyeOutlined} from "@ant-design/icons";
+
 export function Wallet() {
   return (
     <div className="flex flex-col items-center">

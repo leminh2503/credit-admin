@@ -1,11 +1,8 @@
 import "./index.scss";
-import {Button, Modal, Popconfirm, Switch, Table, Tag} from "antd";
+import {Table} from "antd";
 import type {ColumnsType} from "antd/es/table";
 import React, {useState} from "react";
-import {IUserLogin} from "@app/types";
 import {ModalInfo} from "@app/module/home/ModalConfirm";
-import {DeleteOutlined} from "@ant-design/icons";
-import {useRouter} from "next/router";
 
 const data = [
   {
@@ -56,8 +53,6 @@ const data = [
 ];
 
 export function Request(): JSX.Element {
-  const router = useRouter();
-
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = (): void => {
@@ -70,19 +65,6 @@ export function Request(): JSX.Element {
 
   const handleCancel = (): void => {
     setIsModalVisible(false);
-  };
-
-  const handleUserAction = (record: IUserLogin): void => {
-    Modal.confirm({
-      title: `Bạn có muốn khoá tài khoản ${record.email}?`,
-      content: `Taì khoản ${record.email} sẽ bị khoá`,
-      okType: "primary",
-      cancelText: "Huỷ",
-      okText: "Khoá",
-      onOk: () => {
-        // todo
-      },
-    });
   };
 
   const onRow = () => {
@@ -143,14 +125,6 @@ export function Request(): JSX.Element {
       align: "center",
     },
   ];
-
-  const onChangeSwitch = (checked: boolean) => {
-    console.log(`switch to ${checked}`);
-  };
-
-  const handleNavigateDetail = () => {
-    router.push("/profile");
-  };
 
   return (
     <>

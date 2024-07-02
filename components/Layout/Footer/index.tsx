@@ -1,4 +1,4 @@
-import {Col, Row} from "antd";
+import {Row} from "antd";
 import React from "react";
 import {HomeOutlined, UserOutlined, WalletOutlined} from "@ant-design/icons";
 import {useRouter} from "next/router";
@@ -10,6 +10,7 @@ export default function Footer(): JSX.Element {
   };
   return (
     <Row className="flex justify-between px-10 py-2">
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         className="flex-col justify-center items-center text-center"
         onClick={() => handleNavigate("/wallet")}
@@ -17,6 +18,7 @@ export default function Footer(): JSX.Element {
         <WalletOutlined />
         <div>Ví tiền</div>
       </div>
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         className="flex-col justify-center items-center text-center"
         onClick={() => handleNavigate("/home")}
@@ -24,6 +26,7 @@ export default function Footer(): JSX.Element {
         <HomeOutlined />
         <div>Trang chủ</div>
       </div>
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         className="flex-col justify-center items-center text-center"
         onClick={() => handleNavigate("/profile")}

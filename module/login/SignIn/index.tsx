@@ -2,23 +2,12 @@ import "./index.scss";
 import {Formik} from "formik";
 import {Form, Input} from "antd";
 import {ButtonSubmit} from "@app/components/ButtonSubmit";
-import {useMutation} from "react-query";
-import ApiUser from "@app/api/ApiUser";
-import {useDispatch} from "react-redux";
 import {useRouter} from "next/router";
 import Config from "@app/config";
 import {getValidationSchema} from "@app/module/login/NewPassword/form-config";
 
-interface SignInProps {
-  changeTab: (tab: string) => void;
-}
-
-export function SignIn({changeTab}: SignInProps): JSX.Element {
-  const dispatch = useDispatch();
-
+export function SignIn(): JSX.Element {
   const router = useRouter();
-
-  const loginMutation = useMutation(ApiUser.login);
 
   const handleLogin = (): void => {
     router.push(Config.PATHNAME.HOME);

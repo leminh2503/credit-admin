@@ -5,7 +5,9 @@ import {Col, Form, Image, Input, Row} from "antd";
 import {ButtonSubmit} from "@components/ButtonSubmit";
 
 export function SignUp({changeTab}: any): JSX.Element {
-  const handleLogin = () => {};
+  const handleLogin = () => {
+    console.log("n/SignUp/index.tsx");
+  };
 
   return (
     <Formik

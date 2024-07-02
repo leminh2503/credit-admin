@@ -2,7 +2,6 @@ import "./index.scss";
 import {Button, Input, Modal, Popconfirm, Switch, Table, Tag} from "antd";
 import type {ColumnsType} from "antd/es/table";
 import React, {useState} from "react";
-import {IUserLogin} from "@app/types";
 import {ModalInfo} from "@app/module/home/ModalConfirm";
 import {DeleteOutlined} from "@ant-design/icons";
 import {useRouter} from "next/router";
@@ -71,20 +70,6 @@ export function Home(): JSX.Element {
   const handleCancel = (): void => {
     setIsModalVisible(false);
   };
-
-  const handleUserAction = (record: IUserLogin): void => {
-    Modal.confirm({
-      title: `Bạn có muốn khoá tài khoản ${record.email}?`,
-      content: `Taì khoản ${record.email} sẽ bị khoá`,
-      okType: "primary",
-      cancelText: "Huỷ",
-      okText: "Khoá",
-      onOk: () => {
-        // todo
-      },
-    });
-  };
-
   const onRow = () => {
     return {
       onDoubleClick: (): void => {
@@ -118,7 +103,7 @@ export function Home(): JSX.Element {
           case "in_active":
             return <Tag color="orange">Chưa xác minh</Tag>;
           default:
-            return <div></div>;
+            return <div />;
         }
       },
     },
@@ -138,8 +123,9 @@ export function Home(): JSX.Element {
       title: "Hồ sơ",
       key: "address",
       align: "center",
-      render: (_, record) => {
+      render: () => {
         return (
+          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
           <a onClick={handleNavigateDetail} className="color-primary">
             Xem chi tiết
           </a>
@@ -162,8 +148,9 @@ export function Home(): JSX.Element {
       title: "Đổi mật khẩu khách hàng",
       key: "address",
       align: "center",
-      render: (_, record) => {
+      render: () => {
         return (
+          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
           <a onClick={toggleModalChangePassword} className="color-primary">
             Đổi mật khẩu khách hàng
           </a>
@@ -174,13 +161,17 @@ export function Home(): JSX.Element {
       title: "Xóa hồ sơ",
       key: "address",
       align: "center",
-      render: (_, record) => {
+      render: () => {
         return (
           <Popconfirm
             title="Xoá khách hàng"
             description="Bạn có chắc chắn muốn xoá khách hàng?"
-            onConfirm={() => {}}
-            onCancel={() => {}}
+            onConfirm={() => {
+              console.log(123);
+            }}
+            onCancel={() => {
+              console.log("123");
+            }}
             okText="Yes"
             cancelText="No"
           >

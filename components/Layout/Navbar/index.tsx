@@ -1,17 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {Avatar, Button, Dropdown, Input, Menu, Modal} from "antd";
 import {
-  MenuOutlined,
-  UserOutlined,
-  DownOutlined,
   BellOutlined,
+  DownOutlined,
   LogoutOutlined,
   PropertySafetyOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootState} from "@app/redux/store";
 import {loginUser} from "@app/redux/slices/UserSlice";
-import {toggleMenu} from "@app/redux/slices/MenuSlice";
 import {useQuery} from "react-query";
 import {IUserLogin} from "@app/types";
 import ApiUser from "@app/api/ApiUser";
@@ -77,7 +75,12 @@ export default function Navbar(): JSX.Element {
         </Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="2" onClick={() => {}}>
+      <Menu.Item
+        key="2"
+        onClick={() => {
+          console.log("123");
+        }}
+      >
         <div>
           <LogoutOutlined />
           &nbsp;Đăng xuất
@@ -116,7 +119,6 @@ export default function Navbar(): JSX.Element {
         title="Đổi mật khẩu"
         open={openModal}
         onOk={handleOk}
-        UI
         onCancel={() => toggleModal()}
       >
         <Input className="mt-4" size="large" placeholder="Nhập mật khẩu mới" />
