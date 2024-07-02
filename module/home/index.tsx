@@ -1,83 +1,185 @@
 import "./index.scss";
-import React from "react";
-import {Button, Col, Image, Row} from "antd";
-import {DoubleLeftOutlined} from "@ant-design/icons";
-import {useRouter} from "next/router";
+import {Button, Modal, Switch, Table, Tag} from "antd";
+import type {ColumnsType} from "antd/es/table";
+import React, {useState} from "react";
+import {IUserLogin} from "@app/types";
+import {ModalInfo} from "@app/module/home/ModalConfirm";
+import {DeleteOutlined} from "@ant-design/icons";
+
+const data = [
+  {
+    phone: "987654321",
+    name: "Trung van",
+    status: "active",
+    createdDate: "09:21 AM, 29-06-2024",
+    completeDate: "09:21 AM, 29-06-2024",
+    block: true,
+  },
+  {
+    phone: "987654321",
+    name: "Trung van",
+    status: "in_active",
+    createdDate: "09:21 AM, 29-06-2024",
+    completeDate: "09:21 AM, 29-06-2024",
+    block: false,
+  },
+  {
+    phone: "987654321",
+    name: "Trung van",
+    status: "active",
+    createdDate: "09:21 AM, 29-06-2024",
+    completeDate: "09:21 AM, 29-06-2024",
+    block: false,
+  },
+  {
+    phone: "987654321",
+    name: "Trung van",
+    status: "active",
+    createdDate: "09:21 AM, 29-06-2024",
+    completeDate: "09:21 AM, 29-06-2024",
+    block: true,
+  },
+  {
+    phone: "987654321",
+    name: "Trung van",
+    status: "active",
+    createdDate: "09:21 AM, 29-06-2024",
+    completeDate: "09:21 AM, 29-06-2024",
+    block: true,
+  },
+];
 
 export function Home(): JSX.Element {
-  const router = useRouter();
-  const handleClick = () => {
-    router.push("/payment");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = (): void => {
+    setIsModalVisible(true);
   };
+
+  const handleOk = (): void => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = (): void => {
+    setIsModalVisible(false);
+  };
+
+  const handleUserAction = (record: IUserLogin): void => {
+    Modal.confirm({
+      title: `Bạn có muốn khoá tài khoản ${record.email}?`,
+      content: `Taì khoản ${record.email} sẽ bị khoá`,
+      okType: "primary",
+      cancelText: "Huỷ",
+      okText: "Khoá",
+      onOk: () => {
+        // todo
+      },
+    });
+  };
+
+  const onRow = () => {
+    return {
+      onDoubleClick: (): void => {
+        showModal();
+      },
+    };
+  };
+
+  const columns: ColumnsType<any> = [
+    {
+      title: "STT",
+      dataIndex: "index",
+      key: "index",
+      align: "center",
+      render: (_, record, index) => <div>{index + 1}</div>,
+    },
+    {
+      title: "Tên khách hàng",
+      dataIndex: "name",
+      align: "center",
+    },
+    {
+      title: "Trạng thái hồ sơ",
+      dataIndex: "email",
+      key: "email",
+      align: "center",
+      render: (_, record) => {
+        switch (record.status) {
+          case "active":
+            return <Tag color="green">Đã duyệt hồ sơ</Tag>;
+          case "in_active":
+            return <Tag color="orange">Chưa xác minh</Tag>;
+          default:
+            return;
+        }
+      },
+    },
+    {
+      title: "Thời gian khởi tạo đăng ký",
+      dataIndex: "createdDate",
+      key: "createdDate",
+      align: "center",
+    },
+    {
+      title: "Thời gian hoàn thành đăng ký",
+      dataIndex: "completeDate",
+      key: "completeDate",
+      align: "center",
+    },
+    {
+      title: "Hồ sơ",
+      key: "address",
+      align: "center",
+      render: (_, record) => {
+        return <a className="color-primary">Xem chi tiết</a>;
+      },
+    },
+    {
+      title: "Chặn đăng nhập",
+      key: "action",
+      align: "center",
+      render: (_, record) => (
+        <Switch
+          className="switch"
+          defaultChecked={record.block}
+          onChange={onChangeSwitch}
+        />
+      ),
+    },
+    {
+      title: "Đổi mật khẩu khách hàng",
+      key: "address",
+      align: "center",
+      render: (_, record) => {
+        return <a className="color-primary">Đổi mật khẩu khách hàng</a>;
+      },
+    },
+    {
+      title: "Xóa hồ sơ",
+      key: "address",
+      align: "center",
+      render: (_, record) => {
+        return (
+          <Button danger icon={<DeleteOutlined />}>
+            Delete
+          </Button>
+        );
+      },
+    },
+  ];
+
+  const onChangeSwitch = (checked: boolean) => {
+    console.log(`switch to ${checked}`);
+  };
+
   return (
-    <div className="bg-gray-100">
-      <div className="flex flex-col items-center justify-center">
-        <div className="bg-primary w-full p-4 text-white flex justify-between items-center">
-          <h1 className="text-xl">Xin chào, Lee</h1>
-          <div className="flex-col items-center">
-            <span className="mr-2">Tổng đài CSKH</span>
-            <div>1900999953</div>
-          </div>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-          <div className="bg-gray-200 text-center py-2 mb-4 rounded">
-            079******98 đã rút 123.000.000 đ
-          </div>
-          <Image
-            src="img/eximbank-1.png"
-            alt="Loan Banner"
-            className="w-full mb-4"
-          />
-          <Row className="button-container">
-            <Button
-              className="button"
-              type="primary"
-              htmlType="submit"
-              onClick={handleClick}
-            >
-              Đăng ký khoản vay
-            </Button>
-          </Row>
-          <div className="space-y-4 mt-4">
-            <button className="w-full border-primary color-primary py-2 px-4 rounded flex items-center justify-between">
-              <span>Thủ tục vay nhanh chóng, đơn giản</span>
-              <DoubleLeftOutlined />
-            </button>
-            <button className="w-full border-primary color-primary py-2 px-4 rounded flex items-center justify-between">
-              <span>Hạn mức vay lên đến 1 tỷ</span>
-              <DoubleLeftOutlined />
-            </button>
-            <button className="w-full border-primary color-primary py-2 px-4 rounded flex items-center justify-between">
-              <span>Nhận tiền chỉ sau 30 phút làm hồ sơ</span>
-              <DoubleLeftOutlined />
-            </button>
-          </div>
-          <Image
-            src="img/eximbank-2.jpg"
-            alt="Loan Banner"
-            className="w-full mt-4"
-          />
-          <div className="w-full text-center">
-            <Image
-              src="img/congthuong.png"
-              className="mt-4"
-              alt="Eximbank logo"
-              width={100}
-            />
-          </div>
-          <Col>
-            <h3>EXIMBANK</h3>
-            <div>
-              <b>Địa chỉ:</b>
-              <span>
-                Tầng 8 - Vincom Center, 72 Lê Thánh Tôn và 45A Lý Tự Trọng,
-                P.Bến Nghé, Q.1, TP.HCM
-              </span>
-            </div>
-            <div>® Bản quyền thuộc về Eximbank</div>
-          </Col>
-        </div>
-      </div>
-    </div>
+    <>
+      <Table columns={columns} dataSource={data} bordered onRow={onRow} />
+      <ModalInfo
+        isModalVisible={isModalVisible}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+      />
+    </>
   );
 }

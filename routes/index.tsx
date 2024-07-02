@@ -82,22 +82,22 @@ export default function Routes({
     return goToLogin();
   }
 
-  if (isPrivateRoute()) {
-    if (ApiUser.isLogin()) {
-      if (isRouteRequireRole()) {
-        if (!isUserRoleAuthorized()) {
-          router.push(Config.PATHNAME.HOME);
-          return null;
-        }
-      }
-      return (
-        <DashboardLayout>
-          <Component {...pageProps} />
-        </DashboardLayout>
-      );
-    }
-    return goToLogin();
-  }
+  // if (isPrivateRoute()) {
+  //   if (ApiUser.isLogin()) {
+  //     if (isRouteRequireRole()) {
+  //       if (!isUserRoleAuthorized()) {
+  //         router.push(Config.PATHNAME.HOME);
+  //         return null;
+  //       }
+  //     }
+  //     return (
+  //       <DashboardLayout>
+  //         <Component {...pageProps} />
+  //       </DashboardLayout>
+  //     );
+  //   }
+  //   return goToLogin();
+  // }
 
   return (
     <DashboardLayout>

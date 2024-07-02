@@ -1,5 +1,5 @@
 .sidebar {
-  background-color: $sidebar-background;
+  background-color: white;
   height: 100vh;
   width: $sidebar-width;
   top: 0;
@@ -23,6 +23,7 @@
   .logo-container {
     padding: $spacer;
     display: flex;
+    background-color: white;
 
     h1 {
       color: white;
@@ -55,7 +56,7 @@
     }
 
     span {
-      color: white;
+      color: black;
     }
   }
 }
@@ -71,7 +72,7 @@
   display: block;
   visibility: hidden;
   transition: visibility $transition-layout-time,
-    opacity $transition-layout-time;
+  opacity $transition-layout-time;
   z-index: 1000;
 
   &:hover {

@@ -4,7 +4,7 @@ import {Button, Input, Row, Select} from "antd";
 import {LeftOutlined} from "@ant-design/icons";
 import {useRouter} from "next/router";
 
-export function Payment() {
+export function Request() {
   const router = useRouter();
   const [input, setInput] = useState("50,000,000");
   const [selected, setSelected] = useState("12");

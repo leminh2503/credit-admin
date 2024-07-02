@@ -51,7 +51,6 @@ const RenderMenu = React.memo(() => {
   return (
     <Menu
       mode="inline"
-      theme="dark"
       defaultSelectedKeys={[router.pathname]}
       defaultOpenKeys={["/" + router.pathname.split("/")[1]]}
       items={menuItems}
@@ -81,7 +80,7 @@ export default function Sidebar(): JSX.Element {
   return (
     <div className={classNames("sidebar")}>
       <div className="logo-container">
-        <Image src="/img/logo.png" alt="logo" width={20} height={20} />
+        <Image src="/img" alt="logo" width={20} height={20} />
       </div>
       <RenderMenu />
       <div
@@ -89,7 +88,7 @@ export default function Sidebar(): JSX.Element {
         role="presentation"
         onClick={handleLogout}
       >
-        <ArrowLeftOutlined />
+        <ArrowLeftOutlined style={{color: "black"}} />
         <span>Đăng xuất</span>
       </div>
     </div>
