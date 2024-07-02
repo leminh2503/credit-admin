@@ -1,12 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import "./index.scss";
-import {Button, Row, Select} from "antd";
+import {Button, Input, Row, Select} from "antd";
 import {LeftOutlined} from "@ant-design/icons";
 import {useRouter} from "next/router";
 
 export function Payment() {
   const router = useRouter();
-  const handleChange = () => {};
+  const [input, setInput] = useState("50,000,000");
+  const [selected, setSelected] = useState("12");
+  const handleChange = (e) => {
+    console.log("rerasdfsa", e);
+    setSelected(e);
+  };
 
   const handleClick = () => {};
 
@@ -21,10 +26,12 @@ export function Payment() {
         </div>
         <div className="mb-4">
           <label className="block mb-2">Số tiền vay</label>
-          <input
+          <Input
             type="text"
             className="w-full p-2 text-black rounded"
             defaultValue="50,000,000"
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
           />
           <div className="flex justify-between items-center mt-2 text-black">
             <p className="mt-2">Từ 20 triệu</p>
@@ -34,12 +41,13 @@ export function Payment() {
         <div className="mb-4 flex items-center justify-between text-black">
           <label className="block mb-2 text-black">Chọn thời hạn vay</label>
           <Select
-            defaultValue="lucy"
+            defaultValue="12"
             style={{width: 200}}
+            value={selected}
             onChange={handleChange}
             options={[
-              {value: "jack", label: "6 Tháng"},
-              {value: "lucy", label: "12 Tháng"},
+              {value: "6", label: "6 Tháng"},
+              {value: "12", label: "12 Tháng"},
               {value: "24", label: "24 Tháng"},
               {value: "36", label: "36 Tháng"},
               {value: "48", label: "48 Tháng"},
@@ -50,8 +58,8 @@ export function Payment() {
       </div>
       <div className="background-header loan p-4 rounded-lg m-4">
         <h3 className="text-lg font-semibold mb-2">Thông tin khoản vay</h3>
-        <p>Số tiền: 50,000,000 đ</p>
-        <p>Thời hạn vay: 60 tháng</p>
+        <p>Số tiền: {input} đ</p>
+        <p>Thời hạn vay: {selected} tháng</p>
         <p>Ngày vay: 02/07/2024</p>
         <p>Hình thức thanh toán: Trả góp mỗi tháng</p>
       </div>

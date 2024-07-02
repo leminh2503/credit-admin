@@ -12,7 +12,7 @@ export function Home(): JSX.Element {
   return (
     <div className="bg-gray-100">
       <div className="flex flex-col items-center justify-center">
-        <div className="bg-red-600 w-full p-4 text-white flex justify-between items-center">
+        <div className="bg-primary w-full p-4 text-white flex justify-between items-center">
           <h1 className="text-xl">Xin chào, Lee</h1>
           <div className="flex-col items-center">
             <span className="mr-2">Tổng đài CSKH</span>
