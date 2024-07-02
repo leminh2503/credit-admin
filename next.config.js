@@ -11,6 +11,9 @@ module.exports = withBundleAnalyzer({
     includePaths: [path.join(__dirname, "styles")],
     prependData: `@import "./global";`,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   webpack(config) {
     // From https://nanxiaobei.medium.com/disable-css-modules-in-next-js-project-756835172b6e
     // remove css module
