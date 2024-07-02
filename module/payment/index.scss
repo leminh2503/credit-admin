@@ -1,0 +1,15 @@
+.info-credit {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  z-index: 999;
+}
+
+.background-header {
+  background: rgb(18, 162, 255);
+  background: linear-gradient(180deg, rgba(18, 162, 255, 1) 14%, rgba(175, 205, 238, 1) 100%);
+}
+
+.loan {
+  box-shadow: 0px 8px 6px 0px rgba(145, 145, 145, 0.52);
+}

@@ -2,9 +2,13 @@ import "./index.scss";
 import React from "react";
 import {Button, Col, Image, Row} from "antd";
 import {DoubleLeftOutlined} from "@ant-design/icons";
+import {useRouter} from "next/router";
 
 export function Home(): JSX.Element {
-  const handleClick = () => {};
+  const router = useRouter();
+  const handleClick = () => {
+    router.push("/payment");
+  };
   return (
     <div className="bg-gray-100">
       <div className="flex flex-col items-center justify-center">
