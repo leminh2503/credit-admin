@@ -110,7 +110,7 @@ export function Home(): JSX.Element {
           case "in_active":
             return <Tag color="orange">Chưa xác minh</Tag>;
           default:
-            return;
+            return <div></div>;
         }
       },
     },
