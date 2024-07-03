@@ -131,7 +131,10 @@ function getAuthorization(defaultOptions: IFetcherOptions) {
 
   if (defaultOptions.withToken) {
     const state = store.getState();
-    const token = state.user?.accessToken;
+    console.log("state----", state);
+
+    const token = state.user?.user?.user?.token;
+
     if (token) {
       return `Bearer ${token}`;
     }
@@ -166,7 +169,15 @@ function returnResponseData<T>(
   resolve: (value: T | PromiseLike<T>) => void,
   reject: (reason?: IDataError) => void
 ) {
-  if (response.data?.success) {
+  if (response.data?.status === "success") {
+    if (response.data.data) {
+      resolve(response.data.data);
+      return true;
+    }
+    if (response.data) {
+      resolve(response.data);
+      return true;
+    }
     if (response.data.data === undefined) {
       const dataEmpty: IDataError = {
         errorCode: "ERROR???",
@@ -178,7 +189,7 @@ function returnResponseData<T>(
       reject(dataEmpty);
       return true;
     }
-    resolve(response.data.data);
+    resolve(response.data.data || response.data);
     return true;
   }
   return false;

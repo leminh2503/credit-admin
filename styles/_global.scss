@@ -106,3 +106,9 @@ $primary-color: #0092ff;
 .border-primary {
   border: $primary-color 1px solid;
 }
+
+.ant-btn-primary {
+  color: $white-color;
+  background-color: $primary-color !important;
+  border-color: $primary-color;
+}

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Avatar, Button, Dropdown, Input, Menu, Modal} from "antd";
 import {
   BellOutlined,
@@ -9,19 +9,17 @@ import {
 } from "@ant-design/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootState} from "@app/redux/store";
-import {loginUser} from "@app/redux/slices/UserSlice";
-import {useQuery} from "react-query";
-import {IUserLogin} from "@app/types";
-import ApiUser from "@app/api/ApiUser";
+import {logoutUser} from "@app/redux/slices/UserSlice";
 import "./index.scss";
 import Link from "next/link";
+import {useRouter} from "next/router";
 
 /**
  *
  */
 export default function Navbar(): JSX.Element {
-  const user = useSelector((state: IRootState) => state.user);
-
+  const {user} = useSelector((state: IRootState) => state.user);
+  const router = useRouter();
   const dispatch = useDispatch();
   const [openModal, setModal] = useState(false);
 
@@ -31,27 +29,17 @@ export default function Navbar(): JSX.Element {
   const handleOk = () => {
     toggleModal();
   };
-  const getMeData = (): Promise<IUserLogin> => {
-    return ApiUser.getMe();
-  };
 
-  const dataUser = useQuery("dataUser", getMeData);
-
-  useEffect(() => {
-    dataUser.refetch().then((data) => {
-      dispatch(loginUser({...user, user: data?.data}));
+  const handleLogout = (): void => {
+    Modal.confirm({
+      title: "Đăng xuất",
+      content: "Bạn có chắc chắn?",
+      onOk: () => {
+        dispatch(logoutUser());
+        router.push("/login");
+      },
     });
-  }, []);
-
-  // const handleLogout = (): void => {
-  //   Modal.confirm({
-  //     title: "Đăng xuất",
-  //     content: "Bạn có chắc chắn?",
-  //     onOk: () => {
-  //       dispatch(logoutUser());
-  //     },
-  //   });
-  // };
+  };
   /**
    *
    * @returns {*}
@@ -75,12 +63,7 @@ export default function Navbar(): JSX.Element {
         </Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item
-        key="2"
-        onClick={() => {
-          console.log("123");
-        }}
-      >
+      <Menu.Item key="2" onClick={handleLogout}>
         <div>
           <LogoutOutlined />
           &nbsp;Đăng xuất
@@ -108,7 +91,7 @@ export default function Navbar(): JSX.Element {
           <div className="cursor-pointer flex items-center">
             <Avatar size="default" icon={<UserOutlined />} />
             <span className="ml-2 hidden md:flex">
-              {dataUser?.data?.fullName}
+              {user?.user?.user?.userName}
             </span>
             <DownOutlined className="ml-2" />
           </div>

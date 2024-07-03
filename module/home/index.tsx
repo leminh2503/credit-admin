@@ -1,57 +1,43 @@
 import "./index.scss";
-import {Button, Input, Modal, Popconfirm, Switch, Table, Tag} from "antd";
+import {
+  Button,
+  Input,
+  Modal,
+  notification,
+  Popconfirm,
+  Switch,
+  Table,
+  Tag,
+} from "antd";
 import type {ColumnsType} from "antd/es/table";
 import React, {useState} from "react";
 import {DeleteOutlined} from "@ant-design/icons";
 import {useRouter} from "next/router";
-
-const data = [
-  {
-    phone: "987654321",
-    name: "Trung van",
-    status: "active",
-    createdDate: "09:21 AM, 29-06-2024",
-    completeDate: "09:21 AM, 29-06-2024",
-    block: true,
-  },
-  {
-    phone: "987654321",
-    name: "Trung van",
-    status: "in_active",
-    createdDate: "09:21 AM, 29-06-2024",
-    completeDate: "09:21 AM, 29-06-2024",
-    block: false,
-  },
-  {
-    phone: "987654321",
-    name: "Trung van",
-    status: "active",
-    createdDate: "09:21 AM, 29-06-2024",
-    completeDate: "09:21 AM, 29-06-2024",
-    block: false,
-  },
-  {
-    phone: "987654321",
-    name: "Trung van",
-    status: "active",
-    createdDate: "09:21 AM, 29-06-2024",
-    completeDate: "09:21 AM, 29-06-2024",
-    block: true,
-  },
-  {
-    phone: "987654321",
-    name: "Trung van",
-    status: "active",
-    createdDate: "09:21 AM, 29-06-2024",
-    completeDate: "09:21 AM, 29-06-2024",
-    block: true,
-  },
-];
+import ApiUser from "@api/ApiUser";
+import {useMutation, useQuery} from "react-query";
+import moment from "moment";
 
 export function Home(): JSX.Element {
   const router = useRouter();
-
+  const [params, setParams] = useState({page: 1, pageSize: 10});
   const [openModalChangePassword, setOpenModalChangePassword] = useState(false);
+
+  const deleteUserMutation = useMutation(ApiUser.deleteUser);
+  const dataUser = useQuery(["dataUser", params], () =>
+    ApiUser.getListUser(params)
+  );
+
+  const handleDeleteUser = (id: number) => {
+    deleteUserMutation.mutate(id, {
+      onSuccess: () => {
+        dataUser.refetch();
+        notification.success({
+          message: "Xoá thành công",
+          duration: 3,
+        });
+      },
+    });
+  };
 
   const toggleModalChangePassword = () => {
     setOpenModalChangePassword(!openModalChangePassword);
@@ -78,20 +64,22 @@ export function Home(): JSX.Element {
     },
     {
       title: "Tên khách hàng",
-      dataIndex: "name",
+      dataIndex: "fullName",
       align: "center",
     },
     {
       title: "Trạng thái hồ sơ",
-      dataIndex: "email",
-      key: "email",
+      dataIndex: "status",
+      key: "status",
       align: "center",
       render: (_, record) => {
         switch (record.status) {
-          case "active":
+          case "created":
+            return <Tag color="blue">Đã tạo hồ sơ</Tag>;
+          case "success":
             return <Tag color="green">Đã duyệt hồ sơ</Tag>;
-          case "in_active":
-            return <Tag color="orange">Chưa xác minh</Tag>;
+          case "create_profile":
+            return <Tag color="orange">Đã xác minh</Tag>;
           default:
             return <div />;
         }
@@ -99,15 +87,21 @@ export function Home(): JSX.Element {
     },
     {
       title: "Thời gian khởi tạo đăng ký",
-      dataIndex: "createdDate",
-      key: "createdDate",
+      dataIndex: "createdAt",
+      key: "createdAt",
       align: "center",
+      render: (_) => {
+        return <div>{moment(_).format("DD/MM/YYYY")}</div>;
+      },
     },
     {
       title: "Thời gian hoàn thành đăng ký",
-      dataIndex: "completeDate",
-      key: "completeDate",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
       align: "center",
+      render: (_) => {
+        return <div>{moment(_).format("DD/MM/YYYY")}</div>;
+      },
     },
     {
       title: "Hồ sơ",
@@ -147,15 +141,16 @@ export function Home(): JSX.Element {
     },
     {
       title: "Xóa hồ sơ",
-      key: "address",
+      dataIndex: "id",
+      key: "id",
       align: "center",
-      render: () => {
+      render: (_) => {
         return (
           <Popconfirm
             title="Xoá khách hàng"
             description="Bạn có chắc chắn muốn xoá khách hàng?"
             onConfirm={() => {
-              console.log(123);
+              handleDeleteUser(_);
             }}
             onCancel={() => {
               console.log("123");
@@ -182,8 +177,24 @@ export function Home(): JSX.Element {
 
   return (
     <>
-      <Table columns={columns} dataSource={data} bordered onRow={onRow} />
-
+      <Table
+        columns={columns}
+        dataSource={dataUser.data}
+        bordered
+        onRow={onRow}
+        pagination={{
+          current: params.page,
+          pageSize: params.pageSize,
+          total: dataUser.data?.total,
+          showSizeChanger: true,
+          onChange: (page, pageSize) => {
+            setParams({...params, page, pageSize});
+          },
+          onShowSizeChange: (page, pageSize) => {
+            setParams({...params, page, pageSize});
+          },
+        }}
+      />
       <Modal
         title="Đổi mật khẩu khách hàng"
         open={openModalChangePassword}

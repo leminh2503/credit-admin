@@ -1,14 +1,15 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IAccountInfo} from "../../types";
 
-const initialState: IAccountInfo = {};
+const initialState: {user: IAccountInfo | null} = {user: null};
 
 const UserSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    loginUser: (_, action: PayloadAction<IAccountInfo>) => {
-      return action.payload;
+    loginUser: (state, action: PayloadAction<IAccountInfo>) => {
+      console.log("action.payload---", action.payload);
+      state.user = action.payload;
     },
     logoutUser: () => {
       return initialState;

@@ -22,10 +22,16 @@ export interface IParamsGetUser {
   searchType?: string;
 }
 
+export interface IParams {
+  pageSize?: number;
+  page?: number;
+}
+
 const path = {
   login: "/auth/login",
   getMe: "/users/me",
   getUserAccount: "/users",
+  listUser: "/admin/user",
 };
 
 function getUserAccount(params?: IParamsGetUser): Promise<IUserLogin[]> {
@@ -36,7 +42,7 @@ function getMe(): Promise<IUserLogin> {
   return fetcher({url: path.getMe, method: "get"});
 }
 
-function login(body: ILoginBody): Promise<ILoginResponse> {
+function login(body: any): Promise<any> {
   return fetcher(
     {url: path.login, method: "post", data: body},
     {displayError: true}
@@ -49,12 +55,30 @@ function isLogin(): boolean {
 
 function getUserRole(): IAccountRole | undefined {
   const {user} = store.getState();
-  return user?.user?.role?.id;
+  return user?.user?.user?.role?.id;
 }
 
 function getAuthToken(): string | undefined {
   const {user} = store.getState();
-  return user?.accessToken;
+  return user?.user?.accessToken;
+}
+
+function getListUser({page = 1, pageSize = 10}: IParams): Promise<any> {
+  return fetcher({
+    url: path.listUser,
+    method: "get",
+    params: {
+      page: page,
+      pageSize: pageSize,
+    },
+  });
+}
+
+function deleteUser(id: number): Promise<any> {
+  return fetcher({
+    url: `${path.listUser}/${id}`,
+    method: "delete",
+  });
 }
 
 export default {
@@ -64,4 +88,6 @@ export default {
   getUserRole,
   getMe,
   getUserAccount,
+  getListUser,
+  deleteUser,
 };

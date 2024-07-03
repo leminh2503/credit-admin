@@ -67,7 +67,7 @@ export interface IProfile {
 }
 
 export interface IAccountInfo {
-  user?: IUserLogin;
+  user?: any;
   accessToken?: string;
   refreshToken?: string;
   isConfirmed?: boolean;

@@ -5,21 +5,31 @@ import {ButtonSubmit} from "@app/components/ButtonSubmit";
 import {useRouter} from "next/router";
 import Config from "@app/config";
 import {getValidationSchema} from "@app/module/login/NewPassword/form-config";
+import {useMutation} from "react-query";
+import ApiUser from "@api/ApiUser";
+import {useDispatch} from "react-redux";
+import {loginUser} from "@slices/UserSlice";
 
 export function SignIn(): JSX.Element {
   const router = useRouter();
-
-  const handleLogin = (): void => {
-    router.push(Config.PATHNAME.HOME);
+  const loginMutation = useMutation(ApiUser.login);
+  const dispatch = useDispatch();
+  const handleLogin = (value: any): void => {
+    loginMutation.mutate(
+      {
+        userName: value.userName,
+        password: value.password,
+      },
+      {
+        onSuccess: (res: any) => {
+          dispatch(loginUser({user: res}));
+          router.push(Config.PATHNAME.HOME);
+        },
+      }
+    );
   };
   return (
-    <Formik
-      initialValues={{email: "", password: ""}}
-      validateOnChange={false}
-      validateOnBlur
-      validationSchema={getValidationSchema()}
-      onSubmit={handleLogin}
-    >
+    <Formik initialValues={{userName: "", password: ""}} onSubmit={handleLogin}>
       {({
         isSubmitting,
         handleSubmit,
@@ -34,7 +44,7 @@ export function SignIn(): JSX.Element {
               </div>
             </div>
             <Input
-              name="email"
+              name="userName"
               className="mt-4"
               placeholder="Nhập tài khoản"
               onChange={handleChange}
@@ -53,7 +63,7 @@ export function SignIn(): JSX.Element {
               label="Đăng nhập"
               isSubmitting={isSubmitting}
               classRow="pt-20"
-              handleClick={handleLogin}
+              handleClick={handleSubmit}
             />
           </Form>
         </div>
