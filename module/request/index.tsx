@@ -5,55 +5,8 @@ import React, {useState} from "react";
 import {ModalInfo} from "@app/module/home/ModalConfirm";
 import {useMutation, useQuery} from "react-query";
 import ApiUser from "@api/ApiUser";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import moment from "moment";
-
-const data = [
-  {
-    phone: "987654321",
-    name: "Trung van",
-    status: "Thành công",
-    cmnd: "123456789",
-    amount: "1,000,000",
-    note: "Ghi chú",
-    completeDate: "09:21 AM, 29-06-2024",
-  },
-  {
-    phone: "987654321",
-    name: "Trung van",
-    status: "Thành công",
-    cmnd: "123456789",
-    amount: "1,000,000",
-    note: "Ghi chú",
-    completeDate: "09:21 AM, 29-06-2024",
-  },
-  {
-    phone: "987654321",
-    name: "Trung van",
-    status: "Thành công",
-    cmnd: "123456789",
-    amount: "1,000,000",
-    note: "Ghi chú",
-    completeDate: "09:21 AM, 29-06-2024",
-  },
-  {
-    phone: "987654321",
-    name: "Trung van",
-    status: "Thành công",
-    cmnd: "123456789",
-    amount: "1,000,000",
-    note: "Ghi chú",
-    completeDate: "09:21 AM, 29-06-2024",
-  },
-  {
-    phone: "987654321",
-    name: "Trung van",
-    status: "Thành công",
-    cmnd: "123456789",
-    amount: "1,000,000",
-    note: "Ghi chú",
-    completeDate: "09:21 AM, 29-06-2024",
-  },
-];
 
 export function Request(): JSX.Element {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -63,7 +16,6 @@ export function Request(): JSX.Element {
   });
 
   const approveContractMutation = useMutation(ApiUser.approvalContract);
-  const updateWalletMutation = useMutation(ApiUser.updateWallet);
 
   const dataContract = useQuery(["dataContract", params], () =>
     ApiUser.listContract(params)

@@ -3,7 +3,6 @@ import {Button, Image, Input, Modal, notification, Switch, Tag} from "antd";
 import {useRouter} from "next/router";
 import {useMutation, useQuery} from "react-query";
 import ApiUser from "@api/ApiUser";
-import Config from "@app/config";
 
 export function Profile() {
   const [openModalWallet, setOpenModalWallet] = useState(false);

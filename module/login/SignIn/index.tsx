@@ -4,7 +4,6 @@ import {Form, Input} from "antd";
 import {ButtonSubmit} from "@app/components/ButtonSubmit";
 import {useRouter} from "next/router";
 import Config from "@app/config";
-import {getValidationSchema} from "@app/module/login/NewPassword/form-config";
 import {useMutation} from "react-query";
 import ApiUser from "@api/ApiUser";
 import {useDispatch} from "react-redux";
