@@ -50,6 +50,7 @@ export function Profile() {
           duration: 3,
         });
         dataContract.refetch();
+        dataUser.refetch();
       },
     });
   };

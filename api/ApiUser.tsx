@@ -114,10 +114,11 @@ function updateWallet({
   });
 }
 
-function listContract(): Promise<any> {
+function listContract(params: IParams): Promise<any> {
   return fetcher({
     url: path.listContract + "/all",
     method: "get",
+    params,
   });
 }
 
@@ -151,4 +152,5 @@ export default {
   updateWallet,
   getContractByUserId,
   approvalContract,
+  listContract,
 };
