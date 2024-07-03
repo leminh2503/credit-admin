@@ -32,6 +32,9 @@ const path = {
   getMe: "/users/me",
   getUserAccount: "/users",
   listUser: "/admin/user",
+  confirmProfile: "/admin/user/approve",
+  updateWallet: "/admin/wallet",
+  listContract: "/contract/admin",
 };
 
 function getUserAccount(params?: IParamsGetUser): Promise<IUserLogin[]> {
@@ -81,6 +84,59 @@ function deleteUser(id: number): Promise<any> {
   });
 }
 
+function getDetailUser(id: number): Promise<any> {
+  return fetcher({
+    url: `${path.listUser}/${id}`,
+    method: "get",
+  });
+}
+
+function confirmProfile(id: string | number): Promise<any> {
+  return fetcher({
+    url: `${path.confirmProfile}/${id}`,
+    method: "put",
+  });
+}
+
+function updateWallet({
+  id,
+  balance,
+}: {
+  id: string | number;
+  balance: string | number;
+}): Promise<any> {
+  return fetcher({
+    url: `${path.updateWallet}/${id}`,
+    method: "patch",
+    data: {
+      balance,
+    },
+  });
+}
+
+function listContract(): Promise<any> {
+  return fetcher({
+    url: path.listContract + "/all",
+    method: "get",
+  });
+}
+
+function getContractByUserId(id: string): Promise<any> {
+  return fetcher({
+    url: `${path.listContract}/${id}`,
+    method: "get",
+  });
+}
+
+function approvalContract(id: number): Promise<any> {
+  return fetcher({
+    url: path.listContract + "/update/" + id,
+    method: "patch",
+    data: {
+      status: "approve",
+    },
+  });
+}
 export default {
   login,
   isLogin,
@@ -90,4 +146,9 @@ export default {
   getUserAccount,
   getListUser,
   deleteUser,
+  getDetailUser,
+  confirmProfile,
+  updateWallet,
+  getContractByUserId,
+  approvalContract,
 };

@@ -153,7 +153,7 @@ function createApiClient(config: AxiosRequestConfig, options: IFetcherOptions) {
 
   const apiClient = axios.create({
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/x-www-form-urlencoded",
       "Authorization": getAuthorization(defaultOptions),
     },
     baseURL: Config.NETWORK_CONFIG.API_BASE_URL,

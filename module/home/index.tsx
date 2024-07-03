@@ -64,7 +64,7 @@ export function Home(): JSX.Element {
     },
     {
       title: "Tên khách hàng",
-      dataIndex: "fullName",
+      dataIndex: "userName",
       align: "center",
     },
     {
@@ -75,11 +75,11 @@ export function Home(): JSX.Element {
       render: (_, record) => {
         switch (record.status) {
           case "created":
-            return <Tag color="blue">Đã tạo hồ sơ</Tag>;
+            return <Tag color="orange">Chưa xác minh</Tag>;
           case "success":
             return <Tag color="green">Đã duyệt hồ sơ</Tag>;
           case "create_profile":
-            return <Tag color="orange">Đã xác minh</Tag>;
+            return <Tag color="">Đã tạo hồ sơ</Tag>;
           default:
             return <div />;
         }
@@ -106,10 +106,16 @@ export function Home(): JSX.Element {
     {
       title: "Hồ sơ",
       key: "address",
+      dataIndex: "id",
       align: "center",
-      render: () => (
+      render: (_) => (
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-        <a onClick={handleNavigateDetail} className="color-primary">
+        <a
+          onClick={() => {
+            handleNavigateDetail(_);
+          }}
+          className="color-primary"
+        >
           Xem chi tiết
         </a>
       ),
@@ -171,15 +177,18 @@ export function Home(): JSX.Element {
     console.log(`switch to ${checked}`);
   };
 
-  const handleNavigateDetail = () => {
-    router.push("/profile");
+  const handleNavigateDetail = (id: number) => {
+    router.push({
+      pathname: "/profile",
+      query: {id: id},
+    });
   };
 
   return (
     <>
       <Table
         columns={columns}
-        dataSource={dataUser.data}
+        dataSource={dataUser.data?.records ?? []}
         bordered
         onRow={onRow}
         pagination={{
