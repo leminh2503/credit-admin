@@ -30,6 +30,7 @@ export interface IResponseDTO<T> {
   message?: string;
   meta?: IMetadata;
   data?: T;
+  status: any;
 }
 
 interface IResponseWithMetadataDTO<T> {
@@ -110,7 +111,7 @@ function handleRefreshToken() {
       {
         url: "/auth/refresh-token",
         method: "post",
-        data: {refreshToken: store.getState().user?.refreshToken},
+        // data: {refreshToken: store.getState().user?.refreshToken},
       },
       {displayError: false}
     )
@@ -175,9 +176,13 @@ function returnResponseData<T>(
       return true;
     }
     if (response.data) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       resolve(response.data);
       return true;
     }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     if (response.data.data === undefined) {
       const dataEmpty: IDataError = {
         errorCode: "ERROR???",
@@ -189,7 +194,9 @@ function returnResponseData<T>(
       reject(dataEmpty);
       return true;
     }
-    resolve(response.data.data || response.data);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    resolve((response.data?.data as any) || response.data);
     return true;
   }
   return false;
