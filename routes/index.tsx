@@ -102,6 +102,10 @@ export default function Routes({
   //   return goToLogin();
   // }
 
+  if (!ApiUser.isLogin()) {
+    return goToLogin();
+  }
+
   return (
     <DashboardLayout>
       <Component {...pageProps} />

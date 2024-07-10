@@ -63,7 +63,10 @@ function getUserRole(): IAccountRole | undefined {
 
 function getAuthToken(): string | undefined {
   const {user} = store.getState();
-  return user?.user?.accessToken;
+
+  console.log("user----", user);
+
+  return user?.user?.user?.token;
 }
 
 function getListUser({page = 1, pageSize = 10}: IParams): Promise<any> {
