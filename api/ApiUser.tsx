@@ -38,7 +38,17 @@ const path = {
   setting: "/setting",
   lock: "/admin/user/lock",
   statics: "/statistics",
+  changePasswordUser: "/admin/user/change-password",
+  updatePassword: "/profile/update/password",
 };
+
+function updatePassword(data: any): Promise<any> {
+  return fetcher({url: path.updatePassword, method: "put", data});
+}
+
+function updatePasswordUser(data: any): Promise<any> {
+  return fetcher({url: path.changePasswordUser, method: "put", data});
+}
 
 function getStatics(date: string): Promise<any> {
   return fetcher({url: `${path.statics}/${date}`, method: "get"});
@@ -177,4 +187,6 @@ export default {
   getSettings,
   updateLock,
   getStatics,
+  updatePasswordUser,
+  updatePassword,
 };

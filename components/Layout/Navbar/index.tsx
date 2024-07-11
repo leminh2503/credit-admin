@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Avatar, Button, Dropdown, Input, Menu, Modal} from "antd";
+import {Avatar, Button, Dropdown, Input, Menu, Modal, notification} from "antd";
 import {
   BellOutlined,
   DownOutlined,
@@ -13,6 +13,8 @@ import {logoutUser} from "@app/redux/slices/UserSlice";
 import "./index.scss";
 import Link from "next/link";
 import {useRouter} from "next/router";
+import {useMutation} from "react-query";
+import ApiUser from "@api/ApiUser";
 
 /**
  *
@@ -21,13 +23,29 @@ export default function Navbar(): JSX.Element {
   const {user} = useSelector((state: IRootState) => state.user);
   const router = useRouter();
   const dispatch = useDispatch();
+  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [openModal, setModal] = useState(false);
+
+  const updatePassword = useMutation(ApiUser.updatePassword);
 
   const toggleModal = (): void => {
     setModal(!openModal);
   };
   const handleOk = () => {
-    toggleModal();
+    updatePassword.mutate(
+      {newPassword: newPassword, password: password},
+      {
+        onSuccess: () => {
+          toggleModal();
+          notification.success({
+            message: "Thay đổi thành công",
+          });
+          setPassword("");
+          setNewPassword("");
+        },
+      }
+    );
   };
 
   const handleLogout = (): void => {
@@ -46,22 +64,22 @@ export default function Navbar(): JSX.Element {
    */
   const renderDropdown = (): JSX.Element => (
     <Menu>
-      <Menu.Item key="0">
-        <Link href="/user/home" passHref>
-          <div>
-            <UserOutlined />
-            &nbsp;Thông tin
-          </div>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="1">
-        <Link href="/thong-bao/view" passHref>
-          <div className="row-all-center">
-            <BellOutlined />
-            &nbsp;Thông báo&nbsp;
-          </div>
-        </Link>
-      </Menu.Item>
+      {/* <Menu.Item key="0"> */}
+      {/*  <Link href="/user/home" passHref> */}
+      {/*    <div> */}
+      {/*      <UserOutlined /> */}
+      {/*      &nbsp;Thông tin */}
+      {/*    </div> */}
+      {/*  </Link> */}
+      {/* </Menu.Item> */}
+      {/* <Menu.Item key="1"> */}
+      {/*  <Link href="/thong-bao/view" passHref> */}
+      {/*    <div className="row-all-center"> */}
+      {/*      <BellOutlined /> */}
+      {/*      &nbsp;Thông báo&nbsp; */}
+      {/*    </div> */}
+      {/*  </Link> */}
+      {/* </Menu.Item> */}
       <Menu.Divider />
       <Menu.Item key="2" onClick={handleLogout}>
         <div>
@@ -104,9 +122,17 @@ export default function Navbar(): JSX.Element {
         onOk={handleOk}
         onCancel={() => toggleModal()}
       >
-        <Input className="mt-4" size="large" placeholder="Nhập mật khẩu mới" />
         <Input
           className="mt-4"
+          size="large"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          placeholder="Nhập mật khẩu mới"
+        />
+        <Input
+          className="mt-4"
+          value={newPassword}
+          onChange={(event) => setNewPassword(event.target.value)}
           size="large"
           placeholder="Nhập lại mật khẩu mới"
         />

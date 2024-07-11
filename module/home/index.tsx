@@ -29,7 +29,8 @@ export function Home(): JSX.Element {
     search: "",
   });
   const [openModalChangePassword, setOpenModalChangePassword] = useState(false);
-
+  const [userSelected, setUserSelected] = useState(null);
+  const [password, setPassword] = useState("");
   const deleteUserMutation = useMutation(ApiUser.deleteUser);
   const dataUser = useQuery(["dataUser", params], () =>
     ApiUser.getListUser(params)
@@ -47,12 +48,30 @@ export function Home(): JSX.Element {
     });
   };
 
-  const toggleModalChangePassword = () => {
+  const toggleModalChangePassword = (user?: any) => {
     setOpenModalChangePassword(!openModalChangePassword);
+    setUserSelected(user ?? null);
+    setPassword("");
   };
 
+  const updatePasswordMutation = useMutation(ApiUser.updatePasswordUser);
+
   const handleOk = () => {
-    setOpenModalChangePassword(!openModalChangePassword);
+    updatePasswordMutation.mutate(
+      {
+        id: userSelected?.id,
+        newPassword: password,
+      },
+      {
+        onSuccess: () => {
+          setPassword("");
+          setOpenModalChangePassword(!openModalChangePassword);
+          notification.success({
+            message: "Thay đổi thành công",
+          });
+        },
+      }
+    );
   };
   const onRow = () => {
     return {
@@ -149,10 +168,15 @@ export function Home(): JSX.Element {
       title: "Đổi mật khẩu khách hàng",
       key: "address",
       align: "center",
-      render: () => {
+      render: (_, record) => {
         return (
           // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-          <a onClick={toggleModalChangePassword} className="color-primary">
+          <a
+            onClick={() => {
+              toggleModalChangePassword(record);
+            }}
+            className="color-primary"
+          >
             Đổi mật khẩu khách hàng
           </a>
         );
@@ -277,7 +301,13 @@ export function Home(): JSX.Element {
         onOk={handleOk}
         onCancel={() => toggleModalChangePassword()}
       >
-        <Input className="mt-4" size="large" placeholder="Nhập mật khẩu mới" />
+        <Input
+          className="mt-4"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          size="large"
+          placeholder="Nhập mật khẩu mới"
+        />
         <Input
           className="mt-4"
           size="large"
