@@ -7,7 +7,11 @@
 
 .background-header {
   background: rgb(18, 162, 255);
-  background: linear-gradient(180deg, rgba(18, 162, 255, 1) 14%, rgba(175, 205, 238, 1) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(18, 162, 255, 1) 14%,
+    rgba(175, 205, 238, 1) 100%
+  );
 }
 
 .loan {

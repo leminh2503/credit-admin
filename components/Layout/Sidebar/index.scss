@@ -72,7 +72,7 @@
   display: block;
   visibility: hidden;
   transition: visibility $transition-layout-time,
-  opacity $transition-layout-time;
+    opacity $transition-layout-time;
   z-index: 1000;
 
   &:hover {

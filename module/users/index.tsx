@@ -1,28 +1,11 @@
 import "./index.scss";
-import {
-  Button,
-  Input,
-  Modal,
-  notification,
-  Space,
-  Switch,
-  Table,
-  Tag,
-} from "antd";
+import {Button, Input, Modal, notification, Switch, Table} from "antd";
 import type {ColumnsType} from "antd/es/table";
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import ApiUser from "@app/api/ApiUser";
 import Config from "@app/config";
 import {useMutation, useQuery} from "react-query";
-
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
 
 export function Users(): JSX.Element {
   const router = useRouter();

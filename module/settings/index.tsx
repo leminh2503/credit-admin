@@ -1,6 +1,6 @@
 import "./index.scss";
 import {Button, Form, FormProps, Input, notification} from "antd";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import ApiUser from "@app/api/ApiUser";
 import Config from "@app/config";
@@ -9,6 +9,7 @@ import {useMutation, useQuery} from "react-query";
 type FieldType = {
   linkSupport?: string;
   phoneNumber?: string;
+  address?: string;
 };
 
 export function Settings(): JSX.Element {
@@ -20,6 +21,7 @@ export function Settings(): JSX.Element {
       setInitValue({
         linkSupport: res.linkSupport,
         phoneNumber: res.phoneNumber,
+        address: res.address,
       });
     },
   });
@@ -65,6 +67,14 @@ export function Settings(): JSX.Element {
         label="Liên kết CSKH"
         name="phoneNumber"
         rules={[{required: true, message: "Nhập liên kết CSKH!"}]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item<FieldType>
+        label="Liên kết CSKH"
+        name="address"
+        rules={[{required: true, message: "Nhập địa chỉ!"}]}
       >
         <Input />
       </Form.Item>
