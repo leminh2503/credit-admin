@@ -29,7 +29,7 @@ export function Home(): JSX.Element {
     search: "",
   });
   const [openModalChangePassword, setOpenModalChangePassword] = useState(false);
-  const [userSelected, setUserSelected] = useState(null);
+  const [userSelected, setUserSelected] = useState<any>(null);
   const [password, setPassword] = useState("");
   const deleteUserMutation = useMutation(ApiUser.deleteUser);
   const dataUser = useQuery(["dataUser", params], () =>

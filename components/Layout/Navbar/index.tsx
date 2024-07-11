@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {Avatar, Button, Dropdown, Input, Menu, Modal, notification} from "antd";
 import {
-  BellOutlined,
   DownOutlined,
   LogoutOutlined,
   PropertySafetyOutlined,
@@ -11,7 +10,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootState} from "@app/redux/store";
 import {logoutUser} from "@app/redux/slices/UserSlice";
 import "./index.scss";
-import Link from "next/link";
 import {useRouter} from "next/router";
 import {useMutation} from "react-query";
 import ApiUser from "@api/ApiUser";
