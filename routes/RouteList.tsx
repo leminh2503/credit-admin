@@ -28,6 +28,24 @@ const routes: IRoute[] = [
     icon: "Homepage",
     isSidebar: true,
   },
+  {
+    path: "/user",
+    name: "Nhân viên",
+    icon: "Homepage",
+    isSidebar: true,
+  },
+  {
+    path: "/statics",
+    name: "Thống kê",
+    icon: "Homepage",
+    isSidebar: true,
+  },
+  {
+    path: "/settings",
+    name: "Cài đặt",
+    icon: "Homepage",
+    isSidebar: true,
+  },
 ];
 
 export default routes;

@@ -35,7 +35,26 @@ const path = {
   confirmProfile: "/admin/user/approve",
   updateWallet: "/admin/wallet",
   listContract: "/contract/admin",
+  setting: "/setting",
+  lock: "/admin/user/lock",
+  statics: "/statistics",
 };
+
+function getStatics(date: string): Promise<any> {
+  return fetcher({url: `${path.statics}/${date}`, method: "get"});
+}
+
+function updateLock(data: any): Promise<any> {
+  return fetcher({url: path.lock, method: "put", data});
+}
+
+function getSettings(): Promise<any> {
+  return fetcher({url: path.setting, method: "get"});
+}
+
+function updateSettings(data: any): Promise<any> {
+  return fetcher({url: path.setting, method: "patch", data});
+}
 
 function getUserAccount(params?: IParamsGetUser): Promise<IUserLogin[]> {
   return fetcher({url: path.getUserAccount, method: "get", params: params});
@@ -63,19 +82,17 @@ function getUserRole(): IAccountRole | undefined {
 
 function getAuthToken(): string | undefined {
   const {user} = store.getState();
-
-  console.log("user----", user);
-
   return user?.user?.user?.token;
 }
 
-function getListUser({page = 1, pageSize = 10}: IParams): Promise<any> {
+function getListUser(params: IParams): Promise<any> {
   return fetcher({
     url: path.listUser,
     method: "get",
     params: {
-      page: page,
-      pageSize: pageSize,
+      page: params.page ?? 1,
+      pageSize: params.pageSize ?? 10,
+      ...params,
     },
   });
 }
@@ -156,4 +173,8 @@ export default {
   getContractByUserId,
   approvalContract,
   listContract,
+  updateSettings,
+  getSettings,
+  updateLock,
+  getStatics,
 };

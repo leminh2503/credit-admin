@@ -132,8 +132,6 @@ function getAuthorization(defaultOptions: IFetcherOptions) {
 
   if (defaultOptions.withToken) {
     const state = store.getState();
-    console.log("state----", state);
-
     const token = state.user?.user?.user?.token;
 
     if (token) {

@@ -192,6 +192,10 @@ export function Profile() {
               <p className="w-1/2">{dataUser.data?.cccd}</p>
             </div>
             <div className="flex items-center justify-between">
+              <p className="w-1/2">Sđt: </p>
+              <p className="w-1/2">{dataUser.data?.phoneNumberRelatives}</p>
+            </div>
+            <div className="flex items-center justify-between">
               <p className="w-1/2">Ngày sinh: </p>
               <p className="w-1/2">{dataUser.data?.dateOfBith}</p>
             </div>

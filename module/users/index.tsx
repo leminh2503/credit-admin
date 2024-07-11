@@ -14,7 +14,7 @@ interface DataType {
   tags: string[];
 }
 
-export function Salary(): JSX.Element {
+export function Users(): JSX.Element {
   const router = useRouter();
   useEffect(() => {
     if (!ApiUser.isLogin()) {

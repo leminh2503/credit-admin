@@ -1,18 +1,21 @@
 import "./index.scss";
 import {Button, notification, Table, Tag} from "antd";
 import type {ColumnsType} from "antd/es/table";
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import {ModalInfo} from "@app/module/home/ModalConfirm";
 import {useMutation, useQuery} from "react-query";
 import ApiUser from "@api/ApiUser";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import moment from "moment";
+import {debounce} from "lodash";
+import Search from "antd/es/input/Search";
 
 export function Request(): JSX.Element {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [params, setParams] = useState({
     pageSize: 10,
     page: 1,
+    search: "",
   });
 
   const approveContractMutation = useMutation(ApiUser.approvalContract);
@@ -141,10 +144,32 @@ export function Request(): JSX.Element {
     },
   ];
 
+  const debouncedSearch = useCallback(
+    debounce((nextValue) => onSearch(nextValue), 300),
+    [] // will be created only once initially
+  );
+
+  const onSearch = (value: string) => {
+    setParams((prevState) => ({
+      ...prevState,
+      search: value,
+    }));
+  };
+
   return (
     <>
+      <div className="my-3">
+        <Search
+          placeholder="SĐT khách hàng"
+          allowClear
+          onChange={(event) => debouncedSearch(event.target.value)}
+          onSearch={onSearch}
+          style={{width: 200}}
+        />
+      </div>
       <Table
         columns={columns}
+        loading={dataContract.isLoading}
         dataSource={dataContract.data?.records ?? []}
         bordered
         pagination={{

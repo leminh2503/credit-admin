@@ -1,6 +1,7 @@
 import "./index.scss";
 import {
   Button,
+  Checkbox,
   Input,
   Modal,
   notification,
@@ -10,16 +11,23 @@ import {
   Tag,
 } from "antd";
 import type {ColumnsType} from "antd/es/table";
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import {DeleteOutlined} from "@ant-design/icons";
 import {useRouter} from "next/router";
 import ApiUser from "@api/ApiUser";
 import {useMutation, useQuery} from "react-query";
 import moment from "moment";
+import Search from "antd/es/input/Search";
+import {debounce} from "lodash";
 
 export function Home(): JSX.Element {
   const router = useRouter();
-  const [params, setParams] = useState({page: 1, pageSize: 10});
+  const [params, setParams] = useState({
+    page: 1,
+    pageSize: 10,
+    status: [],
+    search: "",
+  });
   const [openModalChangePassword, setOpenModalChangePassword] = useState(false);
 
   const deleteUserMutation = useMutation(ApiUser.deleteUser);
@@ -61,6 +69,11 @@ export function Home(): JSX.Element {
       key: "index",
       align: "center",
       render: (_, record, index) => <div>{index + 1}</div>,
+    },
+    {
+      title: "SĐT",
+      dataIndex: "phoneNumberRelatives",
+      align: "center",
     },
     {
       title: "Tên khách hàng",
@@ -127,8 +140,8 @@ export function Home(): JSX.Element {
       render: (_, record) => (
         <Switch
           className="switch"
-          defaultChecked={record.block}
-          onChange={onChangeSwitch}
+          defaultChecked={record?.lock}
+          onChange={(value) => onChangeSwitch(value, record)}
         />
       ),
     },
@@ -173,8 +186,20 @@ export function Home(): JSX.Element {
     },
   ];
 
-  const onChangeSwitch = (checked: boolean) => {
-    console.log(`switch to ${checked}`);
+  const updateLockMutation = useMutation(ApiUser.updateLock);
+
+  const onChangeSwitch = (checked: boolean, user: any) => {
+    updateLockMutation.mutate(
+      {
+        lock: checked,
+        id: user.id,
+      },
+      {
+        onSuccess: () => {
+          dataUser.refetch();
+        },
+      }
+    );
   };
 
   const handleNavigateDetail = (id: number) => {
@@ -184,10 +209,52 @@ export function Home(): JSX.Element {
     });
   };
 
+  const debouncedSearch = useCallback(
+    debounce((nextValue) => onSearch(nextValue), 300),
+    [] // will be created only once initially
+  );
+
+  const onChange = (checkedValues: any) => {
+    setParams((prevState) => ({
+      ...prevState,
+      status: checkedValues,
+    }));
+  };
+
+  const onSearch = (value: string) => {
+    setParams((prevState) => ({
+      ...prevState,
+      search: value,
+    }));
+  };
+
+  const options = [
+    {label: "Chưa xác minh", value: "created"},
+    {label: "Đã duyệt hồ sơ", value: "success"},
+    {label: "Đã tạo hồ sơ", value: "create_profile"},
+  ];
+
   return (
     <>
+      <Checkbox.Group
+        options={options}
+        value={params.status}
+        onChange={onChange}
+      />
+
+      <div className="my-3">
+        <Search
+          placeholder="SĐT hoặc CCCD"
+          allowClear
+          onChange={(event) => debouncedSearch(event.target.value)}
+          onSearch={onSearch}
+          style={{width: 200}}
+        />
+      </div>
+
       <Table
         columns={columns}
+        loading={dataUser.isLoading}
         dataSource={dataUser.data?.records ?? []}
         bordered
         onRow={onRow}
