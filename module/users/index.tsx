@@ -1,11 +1,20 @@
 import "./index.scss";
-import {Button, Input, Modal, notification, Space, Table, Tag} from "antd";
+import {
+  Button,
+  Input,
+  Modal,
+  notification,
+  Space,
+  Switch,
+  Table,
+  Tag,
+} from "antd";
 import type {ColumnsType} from "antd/es/table";
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import ApiUser from "@app/api/ApiUser";
 import Config from "@app/config";
-import {useMutation} from "react-query";
+import {useMutation, useQuery} from "react-query";
 
 interface DataType {
   key: string;
@@ -18,9 +27,12 @@ interface DataType {
 export function Users(): JSX.Element {
   const router = useRouter();
   const [password, setPassword] = useState("");
-
   const [username, setUsername] = useState("");
   const [openModal, setOpenModal] = useState(false);
+  const [params, setParams] = useState({
+    page: 1,
+    pageSize: 10,
+  });
 
   useEffect(() => {
     if (!ApiUser.isLogin()) {
@@ -28,16 +40,22 @@ export function Users(): JSX.Element {
     }
   }, []);
 
-  const columns: ColumnsType<DataType> = [
+  const dataAdmin = useQuery(["dataAdmin", params], () =>
+    ApiUser.getListAdmin(params)
+  );
+
+  console.log("dataAdmin----", dataAdmin);
+
+  const columns: ColumnsType<any> = [
     {
       title: "Name",
-      dataIndex: "name",
+      dataIndex: "userName",
       key: "name",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Age",
-      dataIndex: "age",
+      title: "Phone",
+      dataIndex: "phoneNumber",
       key: "age",
     },
     {
@@ -46,60 +64,33 @@ export function Users(): JSX.Element {
       key: "address",
     },
     {
-      title: "Tags",
-      key: "tags",
-      dataIndex: "tags",
-      render: (_, {tags}) => (
-        <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? "geekblue" : "green";
-            if (tag === "loser") {
-              color = "volcano";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
-    {
-      title: "Action",
+      title: "Chặn đăng nhập",
       key: "action",
+      align: "center",
       render: (_, record) => (
-        <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
-        </Space>
+        <Switch
+          className="switch"
+          defaultChecked={record?.lock}
+          onChange={(value) => onChangeSwitch(value, record)}
+        />
       ),
     },
   ];
+  const updateLockMutation = useMutation(ApiUser.updateLock);
 
-  const data: DataType[] = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-      tags: ["nice", "developer"],
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sidney No. 1 Lake Park",
-      tags: ["cool", "teacher"],
-    },
-  ];
+  const onChangeSwitch = (checked: boolean, user: any) => {
+    updateLockMutation.mutate(
+      {
+        lock: checked,
+        id: user.id,
+      },
+      {
+        onSuccess: () => {
+          dataAdmin.refetch();
+        },
+      }
+    );
+  };
 
   const toggleModal = () => {
     setOpenModal(!openModal);
@@ -131,7 +122,22 @@ export function Users(): JSX.Element {
       >
         Tạo nhân viên
       </Button>
-      <Table columns={columns} dataSource={data} />
+      <Table
+        columns={columns}
+        dataSource={dataAdmin?.data?.records ?? []}
+        pagination={{
+          current: params.page,
+          pageSize: params.pageSize,
+          total: dataAdmin.data?.total,
+          showSizeChanger: true,
+          onChange: (page, pageSize) => {
+            setParams({...params, page, pageSize});
+          },
+          onShowSizeChange: (page, pageSize) => {
+            setParams({...params, page, pageSize});
+          },
+        }}
+      />
       <Modal
         title="Thêm nhân viên"
         open={openModal}

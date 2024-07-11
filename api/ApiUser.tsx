@@ -41,7 +41,12 @@ const path = {
   changePasswordUser: "/admin/user/change-password",
   updatePassword: "/profile/update/password",
   createUser: "/admin/user/create-admin",
+  listAdmin: "/admin/user/sp-admin/admin",
 };
+
+function getListAdmin(params: IParams): Promise<any> {
+  return fetcher({url: `${path.listAdmin}`, method: "get", params});
+}
 
 function createUser(data: any): Promise<any> {
   return fetcher({url: path.createUser, method: "post", data});
@@ -195,4 +200,5 @@ export default {
   updatePasswordUser,
   updatePassword,
   createUser,
+  getListAdmin,
 };

@@ -1,19 +1,17 @@
 import "./index.scss";
-import React, {useEffect, useState} from "react";
-import {useRouter} from "next/router";
+import React, {useState} from "react";
 import ApiUser from "@app/api/ApiUser";
-import Config from "@app/config";
 import {Line} from "react-chartjs-2";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
-  Chart as ChartJS,
   CategoryScale,
+  Chart as ChartJS,
+  Legend,
   LinearScale,
-  PointElement,
   LineElement,
+  PointElement,
   Title,
   Tooltip,
-  Legend,
 } from "chart.js";
 import {DatePicker} from "antd";
 import dayjs from "dayjs";
@@ -38,8 +36,6 @@ export function Statics(): JSX.Element {
   const dataStatics = useQuery(["Statics", date], () =>
     ApiUser.getStatics(date)
   );
-
-  console.log("dataStatics----", dataStatics);
 
   const options = {
     scales: {
@@ -66,13 +62,19 @@ export function Statics(): JSX.Element {
   };
 
   const data = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    labels: [1, 2, 3, 4, 5],
     datasets: [
       {
-        label: "First dataset",
-        data: [33, 53, 85, 41, 44, 65],
+        label: "Số khách đã qua Zalo",
+        data: [0, 0, 0, 0, dataStatics?.data?.countUserLink],
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)",
+      },
+      {
+        label: "Số khách đã tạo hồ sơ",
+        data: [0, 0, 0, 0, dataStatics?.data?.countUserRegister],
+        backgroundColor: "rgba(41,49,211,0.2)",
+        borderColor: "rgb(0,48,155)",
       },
     ],
   };
@@ -82,8 +84,6 @@ export function Statics(): JSX.Element {
       <DatePicker
         value={dayjs(date)}
         onChange={(value, dateString) => {
-          console.log("dateString---", dateString);
-
           setDate(dateString as any);
         }}
       />
