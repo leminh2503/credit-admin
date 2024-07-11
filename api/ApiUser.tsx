@@ -40,7 +40,12 @@ const path = {
   statics: "/statistics",
   changePasswordUser: "/admin/user/change-password",
   updatePassword: "/profile/update/password",
+  createUser: "/admin/user/create-admin",
 };
+
+function createUser(data: any): Promise<any> {
+  return fetcher({url: path.createUser, method: "post", data});
+}
 
 function updatePassword(data: any): Promise<any> {
   return fetcher({url: path.updatePassword, method: "put", data});
@@ -189,4 +194,5 @@ export default {
   getStatics,
   updatePasswordUser,
   updatePassword,
+  createUser,
 };
