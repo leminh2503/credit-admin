@@ -1,6 +1,6 @@
 import "./index.scss";
 import {Button, Form, FormProps, Input, notification} from "antd";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useRouter} from "next/router";
 import ApiUser from "@app/api/ApiUser";
 import Config from "@app/config";
@@ -14,6 +14,7 @@ type FieldType = {
 
 export function Settings(): JSX.Element {
   const router = useRouter();
+  const _formRef = useRef<any>(undefined);
   const [initValues, setInitValue] = useState({});
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dataSetting = useQuery("Settings", () => ApiUser.getSettings(), {
@@ -23,6 +24,9 @@ export function Settings(): JSX.Element {
         phoneNumber: res.phoneNumber,
         address: res.address,
       });
+      _formRef.current?.setFieldValue("linkSupport", res.linkSupport);
+      _formRef.current?.setFieldValue("phoneNumber", res.phoneNumber);
+      _formRef.current?.setFieldValue("address", res.address);
     },
   });
 
@@ -47,6 +51,7 @@ export function Settings(): JSX.Element {
 
   return (
     <Form
+      ref={_formRef}
       name="basic"
       labelCol={{span: 8}}
       wrapperCol={{span: 16}}
@@ -72,7 +77,7 @@ export function Settings(): JSX.Element {
       </Form.Item>
 
       <Form.Item<FieldType>
-        label="Liên kết CSKH"
+        label="Địa chỉ"
         name="address"
         rules={[{required: true, message: "Nhập địa chỉ!"}]}
       >
