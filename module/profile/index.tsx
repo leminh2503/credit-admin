@@ -9,6 +9,8 @@ export function Profile() {
   const [type, setType] = useState(1);
   const {query} = useRouter();
   const [balance, setBalance] = useState("");
+  const [openModalError, setOpenModalError] = useState(false);
+  const [error, setError] = useState("");
 
   const dataUser = useQuery(
     ["dataUser", query],
@@ -57,6 +59,30 @@ export function Profile() {
   const toggleModal = (tp?: number) => {
     setType(tp as any);
     setOpenModalWallet(!openModalWallet);
+  };
+
+  const updateErrorMutation = useMutation(ApiUser.updateErrorUser);
+
+  const handleOkError = () => {
+    updateErrorMutation.mutate(
+      {
+        id: dataUser?.data?.id,
+        error: error,
+      },
+      {
+        onSuccess: () => {
+          dataUser.refetch();
+          notification.success({
+            message: "Thay đổi thành công",
+          });
+        },
+      }
+    );
+  };
+
+  const toggleModalError = () => {
+    setOpenModalError(!openModalError);
+    setError(dataUser?.data?.error ?? "");
   };
 
   const handleOk = () => {
@@ -183,6 +209,13 @@ export function Profile() {
               Duyệt hồ sơ
             </Button>
           )}
+          <Button
+            type="primary"
+            className=" px-4 mt-4 py-1 rounded"
+            onClick={toggleModalError}
+          >
+            Sửa lỗi khách hàng
+          </Button>
         </div>
 
         <div className="col-span-12 md:col-span-5 bg-white p-4 rounded-lg shadow">
@@ -402,7 +435,20 @@ export function Profile() {
           size="large"
           placeholder="Nhập số tiền"
         />
-        <Input className="mt-4" size="large" placeholder="Nhập lý do" />
+      </Modal>
+      <Modal
+        title="Lỗi"
+        open={openModalError}
+        onOk={handleOkError}
+        onCancel={() => toggleModalError()}
+      >
+        <Input
+          className="mt-4"
+          value={error}
+          onChange={(event) => setError(event.target.value)}
+          size="large"
+          placeholder="Nhập lỗi khách hàng"
+        />
       </Modal>
     </div>
   );

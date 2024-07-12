@@ -29,6 +29,8 @@ export function Home(): JSX.Element {
     search: "",
   });
   const [openModalChangePassword, setOpenModalChangePassword] = useState(false);
+  const [openModalError, setOpenModalError] = useState(false);
+  const [error, setError] = useState("");
   const [userSelected, setUserSelected] = useState<any>(null);
   const [password, setPassword] = useState("");
   const deleteUserMutation = useMutation(ApiUser.deleteUser);
@@ -46,6 +48,31 @@ export function Home(): JSX.Element {
         });
       },
     });
+  };
+
+  const updateErrorMutation = useMutation(ApiUser.updateErrorUser);
+
+  const handleOkError = () => {
+    updateErrorMutation.mutate(
+      {
+        id: userSelected?.id,
+        error: error,
+      },
+      {
+        onSuccess: () => {
+          dataUser.refetch();
+          notification.success({
+            message: "Thay đổi thành công",
+          });
+        },
+      }
+    );
+  };
+
+  const toggleModalError = (user?: any) => {
+    setOpenModalError(!openModalError);
+    setUserSelected(user ?? null);
+    setError(user?.error ?? "");
   };
 
   const toggleModalChangePassword = (user?: any) => {
@@ -127,12 +154,22 @@ export function Home(): JSX.Element {
       },
     },
     {
-      title: "Thời gian hoàn thành đăng ký",
-      dataIndex: "updatedAt",
-      key: "updatedAt",
+      title: "Lỗi khách hàng",
+      dataIndex: "error",
+      key: "error",
       align: "center",
-      render: (_) => {
-        return <div>{moment(_).format("DD/MM/YYYY")}</div>;
+      render: (_, record) => {
+        return (
+          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+          <a
+            onClick={() => {
+              toggleModalError(record);
+            }}
+            className="color-primary"
+          >
+            Thông tin lỗi
+          </a>
+        );
       },
     },
     {
@@ -312,6 +349,21 @@ export function Home(): JSX.Element {
           className="mt-4"
           size="large"
           placeholder="Nhập lại mật khẩu mới"
+        />
+      </Modal>
+
+      <Modal
+        title="Lỗi"
+        open={openModalError}
+        onOk={handleOkError}
+        onCancel={() => toggleModalError()}
+      >
+        <Input
+          className="mt-4"
+          value={error}
+          onChange={(event) => setError(event.target.value)}
+          size="large"
+          placeholder="Nhập lỗi khách hàng"
         />
       </Modal>
     </>

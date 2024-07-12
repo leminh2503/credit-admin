@@ -42,7 +42,12 @@ const path = {
   updatePassword: "/profile/update/password",
   createUser: "/admin/user/create-admin",
   listAdmin: "/admin/user/sp-admin/admin",
+  error: "/admin/user/error",
 };
+
+function updateErrorUser(data: any): Promise<any> {
+  return fetcher({url: path.error, method: "put", data});
+}
 
 function getListAdmin(params: IParams): Promise<any> {
   return fetcher({url: `${path.listAdmin}`, method: "get", params});
@@ -201,4 +206,5 @@ export default {
   updatePassword,
   createUser,
   getListAdmin,
+  updateErrorUser,
 };
