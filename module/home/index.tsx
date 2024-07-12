@@ -60,6 +60,7 @@ export function Home(): JSX.Element {
       },
       {
         onSuccess: () => {
+          setOpenModalChangePassword(!openModalChangePassword);
           dataUser.refetch();
           notification.success({
             message: "Thay đổi thành công",

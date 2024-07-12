@@ -75,6 +75,7 @@ export function Profile() {
           notification.success({
             message: "Thay đổi thành công",
           });
+          setOpenModalError(!openModalError);
         },
       }
     );
