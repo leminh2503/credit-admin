@@ -345,7 +345,11 @@ export function Profile() {
           <div className="col-span-12 md:col-span-6 bg-white p-4 rounded-lg shadow">
             <div className="flex items-center justify-between mt-2">
               <p className="w-1/2">Số tiền: </p>
-              <p className="w-1/2">{dataContract?.data?.[0]?.amountMoney}</p>
+              <p className="w-1/2">
+                {dataContract?.data?.[0]?.amountMoney
+                  ?.toString()
+                  ?.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}
+              </p>
             </div>
 
             <div className="flex items-center justify-between mt-2">
@@ -386,7 +390,10 @@ export function Profile() {
           <div className="flex mt-2">
             <p>Số dư</p>
             <p className="flex-1 text-center font-semibold">
-              {dataUser?.data?.walletData?.balance} VND
+              {dataUser?.data?.walletData?.balance
+                ?.toString()
+                ?.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}{" "}
+              VND
             </p>
           </div>
           <div className="flex justify-between mt-2 mx-20">
@@ -417,14 +424,14 @@ export function Profile() {
         onCancel={() => toggleModal()}
       >
         <Input
-          value={balance}
+          value={balance.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}
           onChange={(e) => {
             const valueInput = e.target.value;
-            const regex = /^[0-9\b]+$/;
+            const regex = /^[0-9\b,]+$/;
             if (!regex.test(valueInput) && valueInput) {
               return;
             }
-            setBalance(e.target.value);
+            setBalance(e.target.value.replaceAll(",", ""));
           }}
           onKeyPress={(event) => {
             if (!/[0-9]/.test(event.key)) {
