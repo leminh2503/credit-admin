@@ -184,16 +184,15 @@ export function Profile() {
   return (
     <div className="mx-auto p-4">
       <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-12 md:col-span-2 bg-white p-4 rounded-lg shadow">
+        <div className="col-span-12 md:col-span-2 bg-white p-4 rounded-lg shadow flex flex-col">
           <div className="text-center mb-4">
             {renderStatus}
             <Image
               src="https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg"
               alt="User"
-              width={150}
-              height={150}
+              width="100%"
               preview={false}
-              className="mx-auto rounded-full"
+              className="mx-auto"
             />
           </div>
           <div className="text-center mb-2">
