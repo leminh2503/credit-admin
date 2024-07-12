@@ -62,7 +62,7 @@ export function Settings(): JSX.Element {
     >
       <Form.Item<FieldType>
         label="Số điện thoại CSKH"
-        name="linkSupport"
+        name="phoneNumber"
         rules={[{required: true, message: "Nhập số điện thoại CSKH!"}]}
       >
         <Input />
@@ -70,7 +70,7 @@ export function Settings(): JSX.Element {
 
       <Form.Item<FieldType>
         label="Liên kết CSKH"
-        name="phoneNumber"
+        name="linkSupport"
         rules={[{required: true, message: "Nhập liên kết CSKH!"}]}
       >
         <Input />
