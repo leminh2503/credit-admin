@@ -29,6 +29,12 @@ const routes: IRoute[] = [
     isSidebar: true,
   },
   {
+    path: "/contracts",
+    name: "Danh sách hợp đồng",
+    icon: "Homepage",
+    isSidebar: true,
+  },
+  {
     path: "/user",
     name: "Nhân viên",
     icon: "Homepage",

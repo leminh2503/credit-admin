@@ -119,7 +119,7 @@ export function Home(): JSX.Element {
     },
     {
       title: "SĐT",
-      dataIndex: "phoneNumberRelatives",
+      dataIndex: "phoneNumber",
       align: "center",
     },
     {
@@ -152,25 +152,6 @@ export function Home(): JSX.Element {
       align: "center",
       render: (_) => {
         return <div>{moment(_).format("DD/MM/YYYY")}</div>;
-      },
-    },
-    {
-      title: "Lỗi khách hàng",
-      dataIndex: "error",
-      key: "error",
-      align: "center",
-      render: (_, record) => {
-        return (
-          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-          <a
-            onClick={() => {
-              toggleModalError(record);
-            }}
-            className="color-primary"
-          >
-            Thông tin lỗi
-          </a>
-        );
       },
     },
     {

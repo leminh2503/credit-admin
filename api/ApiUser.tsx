@@ -33,7 +33,8 @@ const path = {
   getUserAccount: "/users",
   listUser: "/admin/user",
   confirmProfile: "/admin/user/approve",
-  updateWallet: "/admin/wallet",
+  updateWallet: "/admin/wallet/balance",
+  patchWallet: "/admin/wallet",
   listContract: "/contract/admin",
   setting: "/setting",
   lock: "/admin/user/lock",
@@ -43,10 +44,57 @@ const path = {
   createUser: "/admin/user/create-admin",
   listAdmin: "/admin/user/sp-admin/admin",
   error: "/admin/user/error",
+  logWallet: "/admin/wallet/log",
+  notification: "/notification/admin",
+  request: "/admin/wallet/request",
+  bank: "/admin/bank",
 };
+
+function updateBank(data: any): Promise<any> {
+  return fetcher({
+    url: `${path.bank}/${data.id}`,
+    method: "patch",
+    data: {
+      ...data.data,
+    },
+  });
+}
+function updateUser(data: any): Promise<any> {
+  return fetcher({
+    url: `${path.listUser}/${data.id}`,
+    method: "patch",
+    data: {
+      ...data.data,
+    },
+  });
+}
+
+function getRequestUser(id: any): Promise<any> {
+  return fetcher({url: `${path.request}/${id}`, method: "get"});
+}
+
+function getAllRequest(params: IParams): Promise<any> {
+  return fetcher({url: `${path.request}`, method: "get", params});
+}
+
+function getNotification(): Promise<any> {
+  return fetcher({url: path.notification, method: "get"});
+}
 
 function updateErrorUser(data: any): Promise<any> {
   return fetcher({url: path.error, method: "put", data});
+}
+
+function patchWallet(data: any): Promise<any> {
+  return fetcher({
+    url: `${path.patchWallet}/${data.id}`,
+    method: "patch",
+    data,
+  });
+}
+
+function getLogWallet(id: any): Promise<any> {
+  return fetcher({url: `${path.logWallet}/${id}`, method: "get"});
 }
 
 function getListAdmin(params: IParams): Promise<any> {
@@ -143,18 +191,14 @@ function confirmProfile(id: string | number): Promise<any> {
   });
 }
 
-function updateWallet({
-  id,
-  balance,
-}: {
-  id: string | number;
-  balance: string | number;
-}): Promise<any> {
+function updateWallet({id, number, message, type}: any): Promise<any> {
   return fetcher({
     url: `${path.updateWallet}/${id}`,
-    method: "patch",
+    method: "post",
     data: {
-      balance,
+      number,
+      message,
+      type,
     },
   });
 }
@@ -207,4 +251,11 @@ export default {
   createUser,
   getListAdmin,
   updateErrorUser,
+  getLogWallet,
+  patchWallet,
+  getNotification,
+  getRequestUser,
+  getAllRequest,
+  updateUser,
+  updateBank,
 };

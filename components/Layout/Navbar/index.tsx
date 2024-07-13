@@ -1,6 +1,16 @@
-import React, {useState} from "react";
-import {Avatar, Button, Dropdown, Input, Menu, Modal, notification} from "antd";
+import React, {useMemo, useState} from "react";
 import {
+  Avatar,
+  Button,
+  Dropdown,
+  Input,
+  Menu,
+  Modal,
+  notification,
+  Space,
+} from "antd";
+import {
+  BellOutlined,
   DownOutlined,
   LogoutOutlined,
   PropertySafetyOutlined,
@@ -11,8 +21,9 @@ import {IRootState} from "@app/redux/store";
 import {logoutUser} from "@app/redux/slices/UserSlice";
 import "./index.scss";
 import {useRouter} from "next/router";
-import {useMutation} from "react-query";
+import {useMutation, useQuery} from "react-query";
 import ApiUser from "@api/ApiUser";
+import moment from "moment";
 
 /**
  *
@@ -26,6 +37,10 @@ export default function Navbar(): JSX.Element {
   const [openModal, setModal] = useState(false);
 
   const updatePassword = useMutation(ApiUser.updatePassword);
+
+  const getNotification = useQuery(["getNotification"], () =>
+    ApiUser.getNotification()
+  );
 
   const toggleModal = (): void => {
     setModal(!openModal);
@@ -56,6 +71,23 @@ export default function Navbar(): JSX.Element {
       },
     });
   };
+
+  const renderDropdownNotification = useMemo(() => {
+    return (
+      <Menu>
+        <div className="font-bold my-2">Trung tâm thông báo</div>
+        {getNotification.data?.map((item: any, index: any) => (
+          <Menu.Item key={index}>
+            <div className="font-bold">{item.title}</div>
+            <div>{item.message}</div>
+            <div className="text-end">
+              {moment(item.createdAt).format("DD/MM/YYYY HH:mm:ss")}
+            </div>
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
+  }, [getNotification.data]);
   /**
    *
    * @returns {*}
@@ -102,7 +134,16 @@ export default function Navbar(): JSX.Element {
           Đổi mật khẩu
         </Button>
       </div>
-      <div className="group-user-info">
+      <div className="group-user-info flex items-center">
+        <Dropdown
+          overlay={renderDropdownNotification}
+          trigger={["click"]}
+          className="mx-4"
+        >
+          <div>
+            <BellOutlined style={{fontSize: 20}} />
+          </div>
+        </Dropdown>
         <Dropdown overlay={renderDropdown()} trigger={["click"]}>
           <div className="cursor-pointer flex items-center">
             <Avatar size="default" icon={<UserOutlined />} />

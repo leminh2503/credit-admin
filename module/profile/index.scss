@@ -1,0 +1,12 @@
+.container {
+  width: 100%;
+  //background: $border-color;
+}
+
+.switch {
+  background: #888888;
+}
+
+div:where(.css-dev-only-do-not-override-12upa3x).ant-typography, :where(.css-dev-only-do-not-override-12upa3x).ant-typography p {
+  margin-bottom: 0px;
+}
