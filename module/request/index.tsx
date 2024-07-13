@@ -63,7 +63,7 @@ export function Request(): JSX.Element {
       render: (_, record) => {
         return (
           <div>
-            {record?.balance
+            {record?.balance?
               .toString()
               ?.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}
           </div>

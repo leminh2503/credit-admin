@@ -42,6 +42,7 @@ export function Profile() {
     if (dataUser?.data) {
       dataLogWallet.refetch();
       dataRequest.refetch();
+      setError(dataUser?.data?.walletData?.error);
     }
   }, [dataUser?.data]);
 
@@ -499,7 +500,7 @@ export function Profile() {
                   ) : (
                     <Select
                       defaultValue={dataUser?.data?.walletData?.error}
-                      style={{width: "100%"}}
+                      style={{width: "70%"}}
                       value={error}
                       onChange={(value) => setError(value)}
                       options={[
