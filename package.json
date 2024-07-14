@@ -10,7 +10,7 @@
     "bootstrap": "yarn --fronzen-lockfile",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3002",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "prettier": "prettier --check .",
