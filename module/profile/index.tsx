@@ -464,7 +464,6 @@ export function Profile() {
                   ?.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}
               </p>
             </div>
-
             <div className="flex items-center justify-between mt-2">
               <p className="w-1/2 text-sm">Trạng thái: </p>
               <p className="w-1/2">{renderStatusContract}</p>

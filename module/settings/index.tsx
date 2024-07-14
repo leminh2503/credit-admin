@@ -23,10 +23,12 @@ export function Settings(): JSX.Element {
         linkSupport: res.linkSupport,
         phoneNumber: res.phoneNumber,
         address: res.address,
+        linkFB: res?.linkFB,
       });
       _formRef.current?.setFieldValue("linkSupport", res.linkSupport);
       _formRef.current?.setFieldValue("phoneNumber", res.phoneNumber);
       _formRef.current?.setFieldValue("address", res.address);
+      _formRef.current?.setFieldValue("linkFB", res?.linkFB);
     },
   });
 
@@ -72,6 +74,14 @@ export function Settings(): JSX.Element {
         label="Liên kết CSKH"
         name="linkSupport"
         rules={[{required: true, message: "Nhập liên kết CSKH!"}]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item<FieldType>
+        label="Link hỗ trợ facebook"
+        name="linkFB"
+        rules={[{required: true, message: "Nhập liên kết facebook!"}]}
       >
         <Input />
       </Form.Item>
